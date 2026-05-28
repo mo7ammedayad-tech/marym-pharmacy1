@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+  
+
+ <link rel="preconnect" href="https://www.gstatic.com">
+ <link rel="preconnect" href="https://firestore.googleapis.com">
+ <link rel="preconnect" href="https://i.ibb.co">
+ <link rel="preconnect" href="https://i.imgur.com">
+
+<meta charset="UTF-8">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<title>صيدلية مريم يونس</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link rel="preload" as="image"
+href="https://png.pngtree.com/thumb_back/fh260/background/20250304/pngtree-assorted-pharmaceuticals-and-syringes-arranged-neatly-on-turquoise-background-image_17048511.jpg">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff4fa3">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+
+<body>
+
+<div class="product-popup"
+id="productPopup">
+
+<div class="popup-content">
+
+<span class="close-popup"
+onclick="closePopup()">
+عودة
+</span>
+
+<img id="popupImage">
+
+<div class="popup-details">
+
+<h2 id="popupName"></h2>
+
+<div class="product-meta">
+
+<div class="product-badge">
+💊 منتج أصلي
+</div>
+
+<div class="product-badge">
+🚚 توصيل سريع
+</div>
+
+</div>
+
+<div class="popup-desc-title">
+تفاصيل المنتج
+</div>
+
+<p id="popupDesc"></p>
+
+<div class="popup-price"
+id="popupPrice"></div>
+
+<button
+id="popupBtn"
+class="popup-add-btn">
+
+🛒 أضف للسلة
+
+</button>
+
+</div>
+
+</div>
+</div>
+
+<header>
+
+<div class="menu-container">
+
+<button class="menu-btn"
+onclick="toggleMenu()">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+<div class="dropdown-menu"
+id="dropdownMenu">
+
+<button id="loginMenuBtn"
+onclick="openAdminLogin()">
+
+🔐 تسجيل دخول
+
+</button>
+
+<button id="logoutMenuBtn"
+onclick="logoutAdmin()"
+style="display:none;">
+
+🚪 تسجيل خروج
+
+</button>
+
+<button onclick="openAddLogin()">
+<i class="fa-solid fa-plus"></i>
+إضافة منتج
+</button>
+
+<button onclick="openDeleteLogin()">
+<i class="fa-solid fa-trash"></i>
+حذف منتج
+</button>
+
+<button onclick="openEditLogin()">
+<i class="fa-solid fa-pen"></i>
+تعديل منتج
+</button>
+
+</div>
+</div>
+
+<div class="header-content">
+<div class="logo-circle">
+<img src="https://i.imgur.com/BXDjPZB.jpeg">
+</div>
+
+<h1>صيدلية مريم يونس</h1>
+
+<p id="changingText"
+class="fade-text">
+
+العناية الصحية والجمالية بأفضل المنتجات
+
+</p>
+
+</div>
+
+<div class="bubbles">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<div class="circle1"></div>
+<div class="circle2"></div>
+
+</header>
+
+<div class="banner-slider">
+
+  <div class="slides">
+
+    <div class="slide">
+      <img src="https://i.ibb.co/yFVLVCqj/banner1.webp">
+    </div>
+
+    <div class="slide">
+      <img src="https://i.ibb.co/gMVc7Z0s/banner2.webp">
+    </div>
+
+    <div class="slide">
+      <img src="https://i.ibb.co/DhmVLPT/banner3.webp">
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="search-box">
+
+  <div class="social-icons">
+    
+    <a href="https://www.instagram.com/marympharmacy?igsh=a3pvODZweGJmc3Qz" target="_blank">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+
+    <a href="https://tiktok.com/@rxartists" target="_blank">
+      <i class="fa-brands fa-tiktok"></i>
+    </a>
+
+      <a href="https://facebook.com/profile.php?id=61565909115358&mibextid=LQQJ4d" target="_blank">
+    <i class="fa-brands fa-facebook-f"></i>
+  </a>
+
+  </div>
+
+  <div class="search-wrapper">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchInput"
+    placeholder="ابحث عن منتج..."
+    onkeyup="searchProducts(this.value)"> </div>
+
+</div>
+
+<div class="features">
+
+<div class="feature-card"
+onclick="openDeliveryPopup()">
+🚚<br>
+توصيل سريع
+</div>
+
+<div class="feature-card"
+onclick="openOriginalPopup()">
+💊<br>
+منتجات أصلية
+</div>
+
+<div class="feature-card"
+onclick="openWhatsappPopup()">
+📞<br>
+دعم واتساب
+</div>
+
+</div>
+
+<div class="categories">
+
+<div class="cat active"
+onclick="filterCat('الكل',event)">
+<i class="fa-solid fa-border-all"></i>
+<div>الجميع</div>
+</div>
+
+<div class="cat"
+onclick="filterCat('المسكنات والمفاصل',event)">
+<i class="fa-solid fa-pills"></i>
+<div>المسكنات</div>
+</div>
+
+<div class="cat"
+onclick="filterCat('الفيتامينات',event)">
+<i class="fa-solid fa-capsules"></i>
+<div>الفيتامينات</div>
+</div>
+
+<div class="cat"
+onclick="filterCat('العناية بالبشرة',event)">
+<i class="fa-solid fa-spa"></i>
+<div>البشرة</div>
+</div>
+
+<div class="cat"
+onclick="filterCat('العناية بالاسنان',event)">
+<i class="fa-solid fa-tooth"></i>
+<div>الأسنان</div>
+</div>
+
+<div class="cat"
+onclick="filterCat('العناية بالشعر',event)">
+<i class="fa-solid fa-scissors"></i>
+<div>الشعر</div>
+</div>
+
+<div class="cat"
+onclick="filterCat('الاطفال',event)">
+<i class="fa-solid fa-baby"></i>
+<div>الأطفال</div>
+</div>
+
+<div class="cat"
+onclick="filterCat('الجهاز الهضمي',event)">
+<i class="fa-solid fa-notes-medical"></i>
+<div>الجهاز الهضمي</div>
+</div>
+
+<div class="cat"
+onclick="filterCat('المجاري البوليه',event)">
+<i class="fa-solid fa-droplet"></i>
+<div>المجاري البوليه</div>
+</div>
+
+</div>
+
+<div class="counts-wrapper">
+
+<div class="products-count"
+id="productsCount">
+
+عدد المنتجات: 0
+
+</div>
+
+<div class="products-count available-count"
+id="availableCount">
+
+المتوفرة: 0
+
+</div>
+
+<div class="products-count unavailable-count"
+id="unavailableCount">
+
+غير المتوفرة: 0
+
+</div>
+
+</div>
+
+<div class="sort-box">
+
+<span class="sort-text">
+
+ترتيب حسب :
+
+</span>
+
+<select id="sortSelect"
+onchange="sortProducts()">
+
+<option value="newest">
+الأحدث
+</option>
+
+<option value="name">
+الاسم
+</option>
+
+<option value="lowPrice">
+الأرخص
+</option>
+
+<option value="highPrice">
+الأغلى
+</option>
+
+</select>
+
+</div>
+
+<div class="products"
+id="products"></div>
+
+<div class="cart-btn"
+onclick="toggleCart()">
+🛒 <span id="count">0</span>
+</div>
+
+<div class="cart"
+id="cart">
+
+<h2>السلة</h2>
+
+<input id="cname" placeholder="الاسم">
+<input id="cphone"inputmode="numeric"pattern="[0-9]*"placeholder="الهاتف">
+<input id="caddress" placeholder="العنوان">
+
+<div id="cartItems"></div>
+
+<div class="total">
+
+<div style="
+margin-bottom:8px;
+color:#ff4fa3;
+font-weight:bold;
+">
+
+التوصيل لجميع المحافظات:
+5000 IQD
+
+</div>
+
+<div style="
+font-size:14px;
+color:#666;
+margin-bottom:10px;
+">
+
+* يتم إضافة أجور التوصيل تلقائياً
+
+</div>
+
+المجموع النهائي:
+<span id="total">0</span>
+IQD
+
+</div>
+
+<button onclick="sendOrder()">
+إرسال الطلب
+</button>
+
+</div>
+
+<div style="
+background:white;
+margin:15px;
+padding:15px;
+border-radius:18px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+text-align:center;
+line-height:2;
+">
+
+<h3 style="color:#ff4fa3;margin-top:0;">
+عنوان الصيدلية
+</h3>
+
+<p style="margin:0;color:#444;">
+
+بغداد - العطيفية - شارع الدامرجي - مقابل أسواق تبارك
+
+</p>
+
+<a href="https://maps.app.goo.gl/t9y7LErT2KnVWSK56?g_st=iwb"
+target="_blank"
+
+style="
+display:inline-block;
+margin-top:12px;
+background:#ff4fa3;
+color:white;
+padding:10px 18px;
+border-radius:12px;
+text-decoration:none;
+font-weight:bold;
+">
+
+📍 فتح الموقع على خرائط كوكل
+
+</a>
+
+</div>
+
+<footer>
+© 2026 صيدلية مريم يونس
+</footer>
+
+<div class="overlay"
+id="overlay">
+
+<div class="login-box"
+id="loginBox">
+
+<h2>تسجيل الدخول</h2>
+
+<input type="email"
+id="adminEmail"
+placeholder="الإيميل">
+
+<input type="password"
+id="adminPass"
+placeholder="الباسورد">
+
+<button onclick="loginAdmin()">
+دخول
+</button>
+
+<button class="close-btn"
+onclick="closePanels()">
+إغلاق
+</button>
+
+<p id="loginMsg"></p>
+
+</div>
+
+<div class="admin-panel"
+id="addPanel">
+
+<h2>إضافة منتج</h2>
+
+<input id="name"
+placeholder="اسم المنتج">
+
+<input id="price"
+type="number"
+placeholder="السعر">
+
+<input
+type="file"
+id="imageFile"
+accept="image/*">
+
+<textarea id="desc"
+placeholder="الوصف"></textarea>
+
+<div id="cat">
+
+<label>
+<input type="checkbox"
+value="المسكنات والمفاصل">
+المسكنات والمفاصل
+</label>
+
+<label>
+<input type="checkbox"
+value="الفيتامينات">
+الفيتامينات
+</label>
+
+<label>
+<input type="checkbox"
+value="العناية بالبشرة">
+العناية بالبشرة
+</label>
+
+<label>
+<input type="checkbox"
+value="العناية بالاسنان">
+العناية بالاسنان
+</label>
+
+<label>
+<input type="checkbox"
+value="العناية بالشعر">
+العناية بالشعر
+</label>
+
+<label>
+<input type="checkbox"
+value="الاطفال">
+الاطفال
+</label>
+
+<label>
+<input type="checkbox"
+value="الجهاز الهضمي">
+الجهاز الهضمي
+</label>
+
+<label>
+<input type="checkbox"
+value="المجاري البوليه">
+المجاري البوليه
+</label>
+
+</div>
+
+<button onclick="addProduct()">
+إضافة المنتج
+</button>
+
+<button class="close-btn"
+onclick="closePanels()">
+إغلاق
+</button>
+
+<p id="msg"></p>
+
+</div>
+
+<div class="admin-panel"
+id="deletePanel">
+
+<h2>حذف منتج</h2>
+
+<input id="deleteName"
+placeholder="اسم المنتج">
+
+<button onclick="deleteProduct()">
+حذف المنتج
+</button>
+
+<button class="close-btn"
+onclick="closePanels()">
+إغلاق
+</button>
+
+<p id="deleteMsg"></p>
+
+</div>
+
+<div class="admin-panel"
+id="editPanel">
+
+<h2>تعديل منتج</h2>
+
+<input id="oldName"
+placeholder="اسم المنتج الحالي">
+
+<button onclick="loadProductData()">
+بحث
+</button>
+
+<input id="newName"
+placeholder="الاسم الجديد">
+
+<input id="editPrice"
+type="number"
+placeholder="السعر">
+
+<input
+type="file"
+id="editImageFile"
+accept="image/*">
+<input id="editImage"
+placeholder="رابط الصورة الحالية أو اتركه فارغ">
+
+<textarea id="editDesc"
+placeholder="الوصف"></textarea>
+
+<div id="editCat">
+
+<label>
+<input type="checkbox"
+value="المسكنات والمفاصل">
+المسكنات والمفاصل
+</label>
+
+<label>
+<input type="checkbox"
+value="الفيتامينات">
+الفيتامينات
+</label>
+
+<label>
+<input type="checkbox"
+value="العناية بالبشرة">
+العناية بالبشرة
+</label>
+
+<label>
+<input type="checkbox"
+value="العناية بالاسنان">
+العناية بالاسنان
+</label>
+
+<label>
+<input type="checkbox"
+value="العناية بالشعر">
+العناية بالشعر
+</label>
+
+<label>
+<input type="checkbox"
+value="الاطفال">
+الاطفال
+</label>
+
+<label>
+<input type="checkbox"
+value="الجهاز الهضمي">
+الجهاز الهضمي
+</label>
+
+<label>
+<input type="checkbox"
+value="المجاري البوليه">
+المجاري البوليه
+</label>
+
+</div>
+
+<select id="editAvailable">
+
+<option value="true">
+🟢 متوفر
+</option>
+
+<option value="false">
+🔴 غير متوفر
+</option>
+
+</select>
+
+<button onclick="editProduct()">
+حفظ التعديل
+</button>
+
+<button class="close-btn"
+onclick="closePanels()">
+إغلاق
+</button>
+
+<p id="editMsg"></p>
+
+</div>
+
+</div>
+
+
+
+<div id="toast">
+
+✅ تمت إضافة المنتج للسلة
+
+</div>
+
+<div class="overlay"
+id="whatsappPopup"
+style="display:none;z-index:99999;">
+
+<div class="login-box"
+style="text-align:center;">
+
+<h2 style="color:#ff4fa3;">
+
+📞 دعم واتساب
+
+</h2>
+
+<p style="line-height:2;color:#555;">
+
+للتواصل والاستفسار
+تواصل عبر واتساب
+
+</p>
+
+<a
+href="https://wa.me/9647876700165"
+target="_blank"
+
+style="
+display:block;
+background:#25D366;
+color:white;
+padding:14px;
+border-radius:14px;
+text-decoration:none;
+font-weight:bold;
+margin-top:15px;
+">
+
+فتح محادثة واتساب
+
+</a>
+
+<button class="close-btn"onclick="closeWhatsappPopup()"style="margin-top:10px;">
+إغلاق
+</button>
+
+</div>
+</div>
+
+<!-- الصق هنا نافذة المنتجات الأصلية -->
+
+<div class="overlay"id="originalPopup"style="display:none;z-index:99999;">
+
+<div class="login-box"style="text-align:center;">
+
+<h2 style="color:#ff4fa3;">
+💊 منتجات أصلية
+</h2>
+
+<p style="line-height:2;color:#555;font-size:15px;">
+
+جميع المنتجات المتوفرة
+لدينا أصلية ومضمونة
+
+<br><br>
+نحرص دائماً على توفير
+أفضل المناشئ العالمية
+وبجودة عالية للحفاظ
+على سلامتكم وثقتكم
+✨
+</p>
+<button
+class="close-btn"
+onclick="closeOriginalPopup()">
+إغلاق
+</button>
+</div>
+</div>
+
+<div class="overlay"
+id="deliveryPopup"
+style="display:none;z-index:99999;">
+
+<div class="login-box"style="text-align:center;">
+
+<h2 style="color:#ff4fa3;">🚚 التوصيل</h2>
+
+<p style="
+line-height:2;
+color:#555;
+font-size:15px;
+">
+نوفر خدمة توصيل سريعة
+خلال 48 ساعة
+<br><br>
+التوصيل متاح إلى
+كافة محافظات العراق 🇮🇶
+<br><br>بسعر 5000 دينار عراقي فقط ✨</p>
+
+<button class="close-btn"onclick="closeDeliveryPopup()">إغلاق</button>
+
+</div>
+</div>
+
+<button id="scrollTopBtn"onclick="scrollToTop()">↑</button>
+
+<script type="module" src="app.js"></script>
+
+</body>
+</html>

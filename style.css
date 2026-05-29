@@ -1416,3 +1416,64 @@ img{
 
   transform:translateY(-3px);
 }
+
+/* شريط النص المتحرك */
+
+.marquee-wrapper{
+
+  width:92%;
+  margin:14px auto;
+
+  overflow:hidden;
+
+  border-radius:999px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4fa3,
+    #ff84c1
+  );
+
+  box-shadow:
+  0 8px 22px rgba(255,79,163,.22);
+
+  direction:ltr;
+}
+
+.marquee-track{
+
+  display:flex;
+
+  width:max-content;
+  animation:
+  marquee 18s linear infinite;
+  animation-direction:reverse;
+}
+
+.marquee-track span{
+
+  flex-shrink:0;
+
+  color:white;
+
+  font-size:20px;
+
+  font-weight:bold;
+
+  white-space:nowrap;
+
+  padding:16px 45px;
+}
+
+@keyframes marquee{
+
+  0%{
+    transform:translateX(0);
+  }
+
+  100%{
+    transform:translateX(-50%);
+  }
+
+}

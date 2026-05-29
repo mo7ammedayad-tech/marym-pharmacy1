@@ -1,4 +1,4 @@
-const CACHE_NAME = "pharmacy-cache-v1";
+const CACHE_NAME = "pharmacy-cache-v2";
 
 const isLocalhost =
   location.hostname === "localhost" ||
@@ -8,7 +8,10 @@ const STATIC_FILES = [
   "./",
   "./index.html",
   "./style.css",
-  "./script.js"
+  "./app.js",
+  "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png"
 ];
 
 self.addEventListener("install", e => {

@@ -1167,33 +1167,6 @@ document.getElementById("productPopup")
 
 });
 
-const texts = [
-
-  "العناية الصحية والجمالية بأفضل المنتجات 💖",
-
-  "توصيل سريع لكل المحافظات 🚚",
-
-  "منتجات أصلية ومضمونة 💊",
-
-  "أفضل أسعار الصيدليات ✨",
-
-  "دعم واستشارة عبر الواتساب 📞"
-
-];
-
-let current = 0;
-
-setInterval(()=>{
-
-  current++;
-  if(current >= texts.length){
-    current = 0;
-  }
-  document.getElementById("changingText")
-  .innerText = texts[current];
-
-},3000);
-
 window.copyProductLink = function(id){
 
   const link =

@@ -19,7 +19,7 @@ async function compressImage(file){
       let width = img.width;
       let height = img.height;
 
-      const maxWidth = 900;
+      const maxWidth = 700;
 
       if(width > maxWidth){
 
@@ -51,9 +51,7 @@ async function compressImage(file){
         },
 
         "image/webp",
-
-        0.7
-
+        0.55
       );
     };
 
@@ -105,6 +103,8 @@ import {
   updateDoc,
   query,
   where,
+  increment,
+  onSnapshot,
   doc
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
@@ -129,6 +129,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const visitorsRef = doc(db, "stats", "visitors");
+
+
+
+  updateDoc(visitorsRef, {
+    count: increment(1)
+  });
+
+ 
+
+onSnapshot(visitorsRef, (docSnap) => {
+
+  if(docSnap.exists()){
+
+    document.getElementById("visitorsCount").textContent =
+      docSnap.data().count || 0;
+
+  }
+
+});
 
 let cart = JSON.parse(
   localStorage.getItem("cart")
@@ -1439,5 +1459,29 @@ window.addEventListener("load",()=>{
 cphone.addEventListener("input", ()=>{
 
   cphone.value = cphone.value.replace(/\D/g,'');
+
+});
+
+window.closeCart = function(){
+  document.getElementById("cart")
+  .classList.remove("open");
+};
+
+
+// منع الكلك اليمين
+document.addEventListener("contextmenu", function(e){
+  e.preventDefault();
+});
+
+// منع أدوات المطور
+document.addEventListener("keydown", function(e){
+
+  if(
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && e.key === "I") ||
+    (e.ctrlKey && e.key === "u")
+  ){
+    e.preventDefault();
+  }
 
 });

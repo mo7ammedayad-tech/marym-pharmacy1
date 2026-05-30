@@ -136,30 +136,25 @@ style="display:none;">
 
 <h1>صيدلية مريم يونس</h1>
 
-<div class="marquee-wrapper">
-
+<div class="top-marquee">
   <div class="marquee-track">
 
-    <!-- المجموعة الأصلية -->
+    <span>💖 منتجات أصلية ومضمونة 💖</span>
+    <span>✨ أفضل أسعار الصيدليات✨</span>
+    <span>🚚 توصيل سريع لكل المحافظات 🚚</span>
+    <span>📞 دعم عبر الواتساب 📞</span>
+    <span>🛍️ عروض مستمرة يومياً 🛍️</span>
+    <span>🔥 تخفيضات حصرية 🔥</span>
+    <span>💳 دفع عند الاستلام 💳</span>
+    <span>💖 منتجات أصلية ومضمونة 💖</span>
+    <span>✨ أفضل أسعار الصيدليات✨</span>
+    <span>🚚 توصيل سريع لكل المحافظات 🚚</span>
+    <span>📞 دعم عبر الواتساب 📞</span>
+    <span>🛍️ عروض مستمرة يومياً 🛍️</span>
+    <span>🔥 تخفيضات حصرية 🔥</span>
 
-    <span>💖 منتجات أصلية ومضمونة</span>
-    <span>🚚 توصيل سريع لكل المحافظات</span>
-    <span>✨ أفضل أسعار الصيدليات</span>
-    <span>📞 دعم عبر الواتساب</span>
-    <span>🛍️ عروض مستمرة يومياً</span>
-
-    <!-- تكرار مطابق -->
-
-    <span>💖 منتجات أصلية ومضمونة</span>
-    <span>🚚 توصيل سريع لكل المحافظات</span>
-    <span>✨ أفضل أسعار الصيدليات</span>
-    <span>📞 دعم عبر الواتساب</span>
-    <span>🛍️ عروض مستمرة يومياً</span>
 
   </div>
-
-</div>
-
 </div>
 
 <div class="bubbles">
@@ -306,23 +301,22 @@ onclick="filterCat('المجاري البوليه',event)">
 
 <div class="products-count"
 id="productsCount">
-
 عدد المنتجات: 0
 
 </div>
 
 <div class="products-count available-count"
 id="availableCount">
-
 المتوفرة: 0
-
 </div>
 
 <div class="products-count unavailable-count"
 id="unavailableCount">
-
 غير المتوفرة: 0
+</div>
 
+<div class="products-count"id="visitorsCountBox">
+عدد الزيارات للموقع: <span id="visitorsCount">0</span>
 </div>
 
 </div>
@@ -366,8 +360,9 @@ onclick="toggleCart()">
 🛒 <span id="count">0</span>
 </div>
 
-<div class="cart"
-id="cart">
+<div class="cart" id="cart">
+
+<button class="close-cart" onclick="closeCart()"> ✕ </button>
 
 <h2>السلة</h2>
 

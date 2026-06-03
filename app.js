@@ -595,6 +595,22 @@ window.sendOrder = function(){
   msg += `\nالتوصيل: ${delivery} IQD`;
   msg += `\nالمجموع النهائي: ${total + delivery} IQD`;
 
+
+  addDoc(collection(db,"orders"),{
+
+  name: cname.value,
+  phone: cphone.value,
+  address: caddress.value,
+
+  items: cart,
+
+  total: total + delivery,
+
+  createdAt: Date.now()
+
+});
+
+
   window.open(
     "https://wa.me/9647876700165?text=" +
     encodeURIComponent(msg)
@@ -734,6 +750,9 @@ function updateAdminUI(){
     document.getElementById("logoutMenuBtn")
     .style.display = "block";
 
+    document.getElementById("ordersMenuBtn")
+    .style.display = "block";
+
   }else{
 
     document.getElementById("loginMenuBtn")
@@ -741,6 +760,10 @@ function updateAdminUI(){
 
     document.getElementById("logoutMenuBtn")
     .style.display = "none";
+
+    document.getElementById("ordersMenuBtn")
+    .style.display = "none";
+
   }
 }
 
@@ -791,6 +814,14 @@ window.loginAdmin = async function(){
 
       document.getElementById("editPanel")
       .style.display = "block";
+
+
+    }else if(window.mode === "orders"){
+
+     document.getElementById("ordersPanel")
+     .style.display = "block";
+
+     loadOrders();
 
     }
 
@@ -1485,3 +1516,78 @@ document.addEventListener("keydown", function(e){
   }
 
 });
+
+
+window.openOrdersPage = function(){
+
+   if(isAdmin){
+
+    const panel =
+    document.getElementById("ordersPanel");
+
+    panel.style.display = "flex";
+
+    loadOrders();
+
+    return;
+  }
+
+  window.mode = "orders";
+
+  document.getElementById("overlay")
+  .style.display = "flex";
+
+  document.getElementById("loginBox")
+  .style.display = "block";
+};
+
+async function loadOrders(){
+
+  const box =
+  document.getElementById("ordersList");
+
+  box.innerHTML = "جاري التحميل...";
+
+  const snap =
+  await getDocs(collection(db,"orders"));
+
+  let html = "";
+
+  snap.forEach(docItem => {
+
+    const data = docItem.data();
+
+    html += `
+
+    <div style="
+    border:1px solid #ddd;
+    padding:10px;
+    margin:10px 0;
+    border-radius:10px;
+    text-align:right;
+    ">
+
+      <b>الاسم:</b>
+      ${data.name}<br>
+
+      <b>الهاتف:</b>
+      ${data.phone}<br>
+
+      <b>العنوان:</b>
+      ${data.address}<br>
+
+      <b>المجموع:</b>
+      ${data.total} IQD<br>
+
+      <b>عدد المنتجات:</b>
+      ${data.items?.length || 0}
+
+    </div>
+
+    `;
+  });
+
+  box.innerHTML =
+  html || "لا توجد طلبات";
+
+}

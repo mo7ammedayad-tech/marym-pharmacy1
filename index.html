@@ -111,6 +111,14 @@ style="display:none;">
 
 </button>
 
+<button id="ordersMenuBtn"
+onclick="openOrdersPage()"
+style="display:none;">
+
+📦 الطلبات
+
+</button>
+
 <button onclick="openAddLogin()">
 <i class="fa-solid fa-plus"></i>
 إضافة منتج
@@ -801,6 +809,27 @@ font-size:15px;
 <button class="close-btn"onclick="closeDeliveryPopup()">إغلاق</button>
 
 </div>
+</div>
+
+<div class="overlay"
+id="ordersPanel"
+style="display:none;z-index:99999;">
+
+  <div class="login-box">
+
+    <h2>📦 الطلبات</h2>
+
+    <div id="ordersList">
+      لا توجد طلبات
+    </div>
+
+    <button class="close-btn"
+    onclick="document.getElementById('ordersPanel').style.display='none'">
+      إغلاق
+    </button>
+
+  </div>
+
 </div>
 
 <button id="scrollTopBtn"onclick="scrollToTop()">↑</button>

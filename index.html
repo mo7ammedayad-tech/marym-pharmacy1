@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 
-  
-
- <link rel="preconnect" href="https://www.gstatic.com">
- <link rel="preconnect" href="https://firestore.googleapis.com">
- <link rel="preconnect" href="https://i.ibb.co">
- <link rel="preconnect" href="https://i.imgur.com">
-
+<link rel="preconnect" href="https://www.gstatic.com">
+<link rel="preconnect" href="https://firestore.googleapis.com">
+<link rel="preconnect" href="https://i.ibb.co">
+<link rel="preconnect" href="https://i.imgur.com">
 <meta charset="UTF-8">
 <meta
 name="viewport"
@@ -29,8 +25,6 @@ href="https://png.pngtree.com/thumb_back/fh260/background/20250304/pngtree-assor
 <link rel="stylesheet" href="style.css">
 
 </head>
-
-
 
 <body>
 
@@ -56,20 +50,15 @@ onclick="closePopup()">
 💊 منتج أصلي
 </div>
 
-<div class="product-badge">
-🚚 توصيل سريع
-</div>
+<div class="product-badge">🚚 توصيل سريع</div>
 
 </div>
 
-<div class="popup-desc-title">
-تفاصيل المنتج
-</div>
+<div class="popup-desc-title">تفاصيل المنتج</div>
 
 <p id="popupDesc"></p>
 
-<div class="popup-price"
-id="popupPrice"></div>
+<div class="popup-price"id="popupPrice"></div>
 
 <button
 id="popupBtn"
@@ -80,7 +69,6 @@ class="popup-add-btn">
 </button>
 
 </div>
-
 </div>
 </div>
 
@@ -88,10 +76,16 @@ class="popup-add-btn">
 
 <div class="menu-container">
 
+  <button id="darkModeBtn"
+  onclick="toggleDarkMode()">
+  🌜
+  </button>
+
 <button class="menu-btn"
 onclick="toggleMenu()">
 <i class="fa-solid fa-bars"></i>
 </button>
+
 
 <div class="dropdown-menu"
 id="dropdownMenu">
@@ -142,7 +136,8 @@ style="display:none;">
 <img src="https://i.imgur.com/BXDjPZB.jpeg">
 </div>
 
-<h1>صيدلية مريم يونس</h1>
+<h1>⚕️ صيدلية مريم يونس 💗</h1>
+
 
 <div class="top-marquee">
   <div class="marquee-track">
@@ -817,16 +812,32 @@ style="display:none;z-index:99999;">
 
   <div class="login-box">
 
-    <h2>📦 الطلبات</h2>
+    <div class="orders-header">
+
+  <h2>📦 الطلبات</h2>
+
+  <button class="orders-close-btn"
+  onclick="document.getElementById('ordersPanel').style.display='none'">
+    x
+  </button>
+
+</div>
+
+    <div class="orders-summary">
+
+  <div id="ordersTotal" class="order-total-box">
+    مجموع الأرباح: 0 IQD
+  </div>
+
+  <div id="siteProfit" class="order-total-box site-profit">
+    أرباح الموقع 5%: 0 IQD
+  </div>
+
+</div>
 
     <div id="ordersList">
       لا توجد طلبات
     </div>
-
-    <button class="close-btn"
-    onclick="document.getElementById('ordersPanel').style.display='none'">
-      إغلاق
-    </button>
 
   </div>
 

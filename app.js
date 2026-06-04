@@ -604,7 +604,9 @@ window.sendOrder = function(){
 
   items: cart,
 
-  total: total + delivery,
+  total: total, // بدون التوصيل
+
+  delivery: delivery,
 
   createdAt: Date.now()
 
@@ -1551,11 +1553,15 @@ async function loadOrders(){
   const snap =
   await getDocs(collection(db,"orders"));
 
+  let totalProfit = 0;
   let html = "";
+
 
   snap.forEach(docItem => {
 
     const data = docItem.data();
+
+    totalProfit += Number(data.total || 0);
 
     html += `
 
@@ -1587,7 +1593,35 @@ async function loadOrders(){
     `;
   });
 
+
+  document.getElementById("ordersTotal").innerText =
+  "مجموع الأرباح: " +
+   totalProfit.toLocaleString() +
+  " IQD";
+
+  const siteProfit = totalProfit * 0.05;
+
+  document.getElementById("siteProfit").innerText =
+  "أرباح الموقع 5%: " +
+  siteProfit.toLocaleString() +
+  " IQD";
+
   box.innerHTML =
   html || "لا توجد طلبات";
 
 }
+
+window.toggleDarkMode = function(){
+
+  document.body.classList.toggle(
+    "dark-mode"
+  );
+
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains(
+      "dark-mode"
+    )
+  );
+
+};

@@ -113,19 +113,17 @@ style="display:none;">
 
 </button>
 
+<button id="discountsMenuBtn"
+onclick="openDiscountsPanel()"
+style="display:none;">
+
+🎟️ أكواد الخصم
+
+</button>
+
 <button onclick="openAddLogin()">
 <i class="fa-solid fa-plus"></i>
 إضافة منتج
-</button>
-
-<button onclick="openDeleteLogin()">
-<i class="fa-solid fa-trash"></i>
-حذف منتج
-</button>
-
-<button onclick="openEditLogin()">
-<i class="fa-solid fa-pen"></i>
-تعديل منتج
 </button>
 
 </div>
@@ -155,6 +153,7 @@ style="display:none;">
     <span>📞 دعم عبر الواتساب 📞</span>
     <span>🛍️ عروض مستمرة يومياً 🛍️</span>
     <span>🔥 تخفيضات حصرية 🔥</span>
+    <span>💳 دفع عند الاستلام 💳</span>
 
 
   </div>
@@ -239,7 +238,30 @@ onclick="openWhatsappPopup()">
 📞<br>
 دعم واتساب
 </div>
+</div>
 
+<div style="
+background:#d4f5d8;
+margin:10px 15px;
+padding:12px;
+border-radius:14px;
+box-shadow:0 3px 10px rgba(0,0,0,.06);
+text-align:center;
+">
+📍 <b>العطيفية - شارع الدامرجي - مقابل أسواق تبارك</b>
+<br>
+<a
+href="https://maps.app.goo.gl/t9y7LErT2KnVWSK56?g_st=iwb"
+target="_blank"
+style="
+display:inline-block;
+margin-top:8px;
+color:#ff4fa3;
+font-weight:bold;
+text-decoration:none;
+">
+فتح الموقع على الخرائط
+</a>
 </div>
 
 <div class="categories">
@@ -298,6 +320,12 @@ onclick="filterCat('المجاري البوليه',event)">
 <div>المجاري البوليه</div>
 </div>
 
+<div class="cat"
+onclick="filterCat('النسائية',event)">
+<i class="fa-solid fa-person-dress"></i>
+<div>النسائية</div>
+</div>
+
 </div>
 
 <div class="counts-wrapper">
@@ -319,7 +347,7 @@ id="unavailableCount">
 </div>
 
 <div class="products-count"id="visitorsCountBox">
-عدد الزيارات للموقع: <span id="visitorsCount">0</span>
+زوار الموقع: <span id="visitorsCount">0</span>
 </div>
 
 </div>
@@ -355,8 +383,7 @@ onchange="sortProducts()">
 
 </div>
 
-<div class="products"
-id="products"></div>
+<div class="products"id="products"></div>
 
 <div class="cart-btn"
 onclick="toggleCart()">
@@ -382,10 +409,8 @@ margin-bottom:8px;
 color:#ff4fa3;
 font-weight:bold;
 ">
-
 التوصيل لجميع المحافظات:
 5000 IQD
-
 </div>
 
 <div style="
@@ -393,60 +418,38 @@ font-size:14px;
 color:#666;
 margin-bottom:10px;
 ">
-
 * يتم إضافة أجور التوصيل تلقائياً
-
 </div>
 
+<div id="discountResult"></div>
+
+<div style="
+margin-top:10px;
+font-weight:bold;
+font-size:18px;
+">
 المجموع النهائي:
 <span id="total">0</span>
 IQD
+</div>
 
 </div>
+
+<input
+id="discountCode"
+placeholder="أدخل كود الخصم">
+
+<button
+class="discount-btn"
+onclick="applyDiscountCode()">
+تطبيق كود الخصم
+</button>
+
+<div id="discountResult"></div>
 
 <button onclick="sendOrder()">
 إرسال الطلب
 </button>
-
-</div>
-
-<div style="
-background:white;
-margin:15px;
-padding:15px;
-border-radius:18px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
-text-align:center;
-line-height:2;
-">
-
-<h3 style="color:#ff4fa3;margin-top:0;">
-عنوان الصيدلية
-</h3>
-
-<p style="margin:0;color:#444;">
-
-بغداد - العطيفية - شارع الدامرجي - مقابل أسواق تبارك
-
-</p>
-
-<a href="https://maps.app.goo.gl/t9y7LErT2KnVWSK56?g_st=iwb"
-target="_blank"
-
-style="
-display:inline-block;
-margin-top:12px;
-background:#ff4fa3;
-color:white;
-padding:10px 18px;
-border-radius:12px;
-text-decoration:none;
-font-weight:bold;
-">
-
-📍 فتح الموقع على خرائط كوكل
-
-</a>
 
 </div>
 
@@ -553,6 +556,12 @@ value="المجاري البوليه">
 المجاري البوليه
 </label>
 
+<label>
+<input type="checkbox"
+value="النسائية">
+النسائية
+</label>
+
 </div>
 
 <button onclick="addProduct()">
@@ -594,13 +603,6 @@ id="editPanel">
 
 <h2>تعديل منتج</h2>
 
-<input id="oldName"
-placeholder="اسم المنتج الحالي">
-
-<button onclick="loadProductData()">
-بحث
-</button>
-
 <input id="newName"
 placeholder="الاسم الجديد">
 
@@ -612,8 +614,6 @@ placeholder="السعر">
 type="file"
 id="editImageFile"
 accept="image/*">
-<input id="editImage"
-placeholder="رابط الصورة الحالية أو اتركه فارغ">
 
 <textarea id="editDesc"
 placeholder="الوصف"></textarea>
@@ -666,6 +666,12 @@ value="الجهاز الهضمي">
 <input type="checkbox"
 value="المجاري البوليه">
 المجاري البوليه
+</label>
+
+<label>
+<input type="checkbox"
+value="النسائية">
+النسائية
 </label>
 
 </div>
@@ -844,6 +850,78 @@ style="display:none;z-index:99999;">
 </div>
 
 <button id="scrollTopBtn"onclick="scrollToTop()">↑</button>
+
+<div class="overlay"
+id="discountsPanel"
+style="display:none;z-index:99999;">
+
+  <div class="login-box">
+
+    <div class="orders-header">
+
+      <h2>🎟️ أكواد الخصم</h2>
+
+      <button class="orders-close-btn"
+      onclick="closeDiscountsPanel()">
+        ×
+      </button>
+
+    </div>
+
+    <div id="discountsContent">
+
+  <input
+  id="discountCodeInput"
+  placeholder="كود الخصم">
+
+  <input
+  id="discountPercentInput"
+  type="number"
+  placeholder="نسبة الخصم %">
+
+  <select id="discountType"
+    onchange="toggleUsageLimit()">
+
+  <option value="multi">
+    دائم
+  </option>
+
+  <option value="single">
+    استخدام مرة واحدة
+  </option>
+
+  <option value="limited">
+    عدد استخدامات محدد
+  </option>
+
+</select>
+
+<div id="usageLimitBox"
+style="display:none;">
+
+  <input
+  id="usageLimit"
+  type="number"
+  placeholder="عدد الاستخدامات">
+
+</div>
+
+
+  <button onclick="addDiscountCode()">
+    إضافة الكود
+  </button>
+
+  <hr style="margin:15px 0;">
+
+  <div id="discountsList">
+    لا توجد أكواد حالياً
+  </div>
+
+</div>
+
+  </div>
+
+</div>
 
 <script type="module" src="app.js"></script>
 

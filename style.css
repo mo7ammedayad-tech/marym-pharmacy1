@@ -1243,41 +1243,45 @@ img{
 
 /* شريط النص المتحرك */
 
+.marquee-track{
+  display:flex;
+  width:max-content;
+  white-space:nowrap;
+  padding:16px 0;
+  color:#fff;
+  font-size:20px;
+  font-weight:bold;
+  animation:moveText 25s linear infinite;
+}
+
+.marquee-track span{
+  flex-shrink:0;
+  margin:0 35px;
+}
+
 .top-marquee{
   width:95%;
   margin:14px auto;
   border-radius:999px;
   overflow:hidden;
-  background:
-  linear-gradient(
+  background:linear-gradient(
     135deg,
     #ff4fa3,
     #ff84c1
   );
   box-shadow:
   0 8px 22px rgba(255,79,163,.22);
-}
 
-.marquee-track{
-  display:inline-block;
-  white-space:nowrap;
-  padding:16px 0;
-  color:#fff;
-  font-size:20px;
-  font-weight:bold;
-  animation:moveText 18s linear infinite;
-}
-
-.marquee-track span{
-  margin:0 35px;
+  position:relative;
 }
 
 @keyframes moveText{
   0%{
-    transform:translateX(-100%);
+    transform: translateX(-100%);
   }
+
   100%{
-    transform:translateX(100vw);
+    transform: translateX(100%);
   }
 }
 
@@ -1457,4 +1461,19 @@ body.dark-mode .cat.active{
 body.dark-mode .categories.sticky-active{
   background:#1f1f1f;
   box-shadow:0 4px 15px rgba(0,0,0,.4);
+}
+
+.discount-btn{
+  margin-bottom: 10px;
+}
+
+#discountsList{
+  max-height: 350px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+#discountsPanel .login-box{
+  max-height: 85vh;
+  overflow-y: auto;
 }

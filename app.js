@@ -105,7 +105,8 @@ import {
   where,
   increment,
   onSnapshot,
-  doc
+  doc,
+  setDoc
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -150,6 +151,8 @@ onSnapshot(visitorsRef, (docSnap) => {
 
 });
 
+let appliedDiscount = 0;
+let appliedCode = null;
 let cart = JSON.parse(
   localStorage.getItem("cart")
 ) || [];
@@ -496,13 +499,43 @@ function updateCart(){
 `;
   });
 
-  document.getElementById("count").innerText =
-  cart.reduce((a,b)=>a+b.qty,0);
+document.getElementById("count").innerText =
+cart.reduce((a,b)=>a+b.qty,0);
 
-  const delivery = 5000;
+const delivery = 5000;
 
-document.getElementById("total").innerText =
+let finalTotal =
 total + delivery;
+
+if(appliedDiscount){
+
+  const discountValue =
+  Math.round(
+    finalTotal *
+    appliedDiscount / 100
+  );
+
+  finalTotal -= discountValue;
+
+  document.getElementById(
+  "discountResult"
+  ).innerHTML =
+
+  `الخصم:
+  ${discountValue}
+  IQD (${appliedDiscount}%)`;
+
+}else{
+
+  document.getElementById(
+  "discountResult"
+  ).innerHTML = "";
+
+}
+
+document.getElementById("total")
+.innerText = finalTotal;
+
 localStorage.setItem(
   "cart",
   JSON.stringify(cart)
@@ -555,7 +588,7 @@ document.addEventListener("click",function(e){
 });
 
 
-window.sendOrder = function(){
+window.sendOrder = async function(){
 
   // التحقق من الحقول
   if(
@@ -590,13 +623,29 @@ window.sendOrder = function(){
 
   });
 
-  const delivery = 5000;
+const delivery = 5000;
 
-  msg += `\nالتوصيل: ${delivery} IQD`;
-  msg += `\nالمجموع النهائي: ${total + delivery} IQD`;
+let finalTotal = total + delivery;
+
+let discountValue = 0;
+
+if(appliedDiscount){
+
+  discountValue = Math.round(
+    finalTotal *
+    appliedDiscount / 100
+  );
+
+  finalTotal -= discountValue;
+
+  msg += `\nالخصم: ${discountValue} IQD`;
+}
+
+msg += `\nالتوصيل: ${delivery} IQD`;
+msg += `\nالمجموع النهائي: ${finalTotal} IQD`;
 
 
-  addDoc(collection(db,"orders"),{
+addDoc(collection(db,"orders"),{
 
   name: cname.value,
   phone: cphone.value,
@@ -604,19 +653,62 @@ window.sendOrder = function(){
 
   items: cart,
 
-  total: total, // بدون التوصيل
-
+  total: total,
   delivery: delivery,
+
+  discount: appliedDiscount,
+  discountValue: discountValue,
+  finalTotal: finalTotal,
+
+  discountCode:
+  appliedCode?.code || "",
 
   createdAt: Date.now()
 
 });
+
+ if(appliedCode){
+
+  const discountRef =
+  doc(db,"discountCodes",appliedCode.code);
+
+  if(appliedCode.type === "single"){
+
+    await updateDoc(discountRef,{
+      used:true
+    });
+
+  }
+
+  if(appliedCode.type === "limited"){
+
+    await updateDoc(discountRef,{
+      currentUses: increment(1)
+    });
+
+  }
+
+}
+
+appliedDiscount = 0;
+appliedCode = null;
+
+document.getElementById("discountCode").value = "";
+
+cart = [];
+
+localStorage.removeItem("cart");
+
+updateCart();
 
 
   window.open(
     "https://wa.me/9647876700165?text=" +
     encodeURIComponent(msg)
   );
+
+
+ 
 
 };
 window.toggleMenu = function(){
@@ -755,6 +847,9 @@ function updateAdminUI(){
     document.getElementById("ordersMenuBtn")
     .style.display = "block";
 
+    document.getElementById("discountsMenuBtn")
+    .style.display = "block";
+
   }else{
 
     document.getElementById("loginMenuBtn")
@@ -764,6 +859,9 @@ function updateAdminUI(){
     .style.display = "none";
 
     document.getElementById("ordersMenuBtn")
+    .style.display = "none";
+
+    document.getElementById("discountsMenuBtn")
     .style.display = "none";
 
   }
@@ -1018,84 +1116,6 @@ window.deleteProduct = async function(){
 
 };
 
-window.loadProductData = async function(){
-
-
-  let oldName =
-  document.getElementById("oldName")
-  .value
-  .trim()
-  .toLowerCase();
-
-  if(!oldName){
-
-    alert("اكتب اسم المنتج");
-
-    return;
-  }
-
-  const snap =
-  await getDocs(collection(db,"products"));
-
-  let found = false;
-
-  for(const item of snap.docs){
-
-    const data = item.data();
-
-    if(
-      data.name
-      ?.trim()
-      .toLowerCase()
-
-      === oldName
-    ){
-
-      document.getElementById("newName")
-      .value = data.name || "";
-
-      document.getElementById("editPrice")
-      .value = data.price || "";
-
-      document.getElementById("editImage")
-      .value = data.image || "";
-
-      document.getElementById("editDesc")
-      .value = data.desc || "";
-
-      document
-.querySelectorAll(
-'#editCat input[type="checkbox"]'
-)
-.forEach(cb => {
-
-  cb.checked =
-  (data.cat || []).includes(cb.value);
-
-});
-
-      document.getElementById("editAvailable")
-      .value =
-
-      data.available === false
-
-      ? "false"
-
-      : "true";
-
-      window.editingId = item.id;
-
-      found = true;
-
-      break;
-    }
-  }
-
-  if(!found){
-
-    alert("المنتج غير موجود");
-  }
-};
 
 window.quickDelete = async function(name){
 
@@ -1123,16 +1143,51 @@ window.quickDelete = async function(name){
 
 window.quickEdit = async function(name){
 
-  openEditLogin();
+  const product =
+  allProducts.find(
+    p => p.name === name
+  );
 
-  document.getElementById("oldName")
-  .value = name;
+  if(!product) return;
 
-  setTimeout(()=>{
+  window.editingId = product.id;
 
-    loadProductData();
+  document.getElementById("overlay")
+  .style.display = "flex";
 
-  },300);
+  document.getElementById("loginBox")
+  .style.display = "none";
+
+  document.getElementById("editPanel")
+  .style.display = "block";
+
+  document.getElementById("newName")
+  .value = product.name || "";
+
+  document.getElementById("editPrice")
+  .value = product.price || "";
+
+
+  document.getElementById("editDesc")
+  .value = product.desc || "";
+
+  document.querySelectorAll(
+    '#editCat input[type="checkbox"]'
+  ).forEach(cb => {
+
+    cb.checked =
+    (product.cat || [])
+    .includes(cb.value);
+
+  });
+
+  document.getElementById(
+    "editAvailable"
+  ).value =
+  product.available === false
+  ? "false"
+  : "true";
+
 };
 
 window.editProduct = async function(){
@@ -1153,16 +1208,19 @@ window.editProduct = async function(){
   document.getElementById("editPrice")
   .value;
 
-  let image =
-document.getElementById("editImage").value;
+const oldProduct =
+allProducts.find(
+  p => p.id === window.editingId
+);
+
+let image =
+oldProduct?.image || "";
 
 let editFile =
 document.getElementById("editImageFile").files[0];
 
 if(editFile){
-
   image = await uploadImage(editFile);
-
 }
   let desc =
   document.getElementById("editDesc")
@@ -1199,7 +1257,7 @@ document.querySelectorAll(
   .innerText = "تم حفظ التعديل ✅";
   document.getElementById("editImageFile").value = "";
 
-  loadProducts();
+  await loadProducts();
 
   setTimeout(()=>{
 
@@ -1501,23 +1559,7 @@ window.closeCart = function(){
 };
 
 
-// منع الكلك اليمين
-document.addEventListener("contextmenu", function(e){
-  e.preventDefault();
-});
 
-// منع أدوات المطور
-document.addEventListener("keydown", function(e){
-
-  if(
-    e.key === "F12" ||
-    (e.ctrlKey && e.shiftKey && e.key === "I") ||
-    (e.ctrlKey && e.key === "u")
-  ){
-    e.preventDefault();
-  }
-
-});
 
 
 window.openOrdersPage = function(){
@@ -1561,36 +1603,47 @@ async function loadOrders(){
 
     const data = docItem.data();
 
-    totalProfit += Number(data.total || 0);
+    totalProfit += Number(
+  data.finalTotal || data.total || 0
+);
 
     html += `
 
-    <div style="
-    border:1px solid #ddd;
-    padding:10px;
-    margin:10px 0;
-    border-radius:10px;
-    text-align:right;
-    ">
+<div style="
+border:1px solid #ddd;
+padding:10px;
+margin:10px 0;
+border-radius:10px;
+text-align:right;
+">
 
-      <b>الاسم:</b>
-      ${data.name}<br>
+  <b>الاسم:</b>
+  ${data.name}<br>
 
-      <b>الهاتف:</b>
-      ${data.phone}<br>
+  <b>الهاتف:</b>
+  ${data.phone}<br>
 
-      <b>العنوان:</b>
-      ${data.address}<br>
+  <b>العنوان:</b>
+  ${data.address}<br>
 
-      <b>المجموع:</b>
-      ${data.total} IQD<br>
+  <b>المجموع:</b>
+  ${data.total} IQD<br>
 
-      <b>عدد المنتجات:</b>
-      ${data.items?.length || 0}
+  <b>الخصم:</b>
+  ${data.discount || 0}%<br>
 
-    </div>
+  <b>قيمة الخصم:</b>
+  ${data.discountValue || 0} IQD<br>
 
-    `;
+  <b>المجموع النهائي:</b>
+  ${data.finalTotal || data.total} IQD<br>
+
+  <b>عدد المنتجات:</b>
+  ${data.items?.length || 0}
+
+</div>
+
+`;
   });
 
 
@@ -1625,3 +1678,342 @@ window.toggleDarkMode = function(){
   );
 
 };
+
+window.openDiscountsPanel = function(){
+
+  document.getElementById(
+  "discountsPanel"
+  ).style.display = "flex";
+
+  loadDiscountCodes();
+
+}
+
+window.closeDiscountsPanel = function(){
+
+  document.getElementById(
+    "discountsPanel"
+  ).style.display = "none";
+
+}
+
+window.addDiscountCode = function(){
+
+  const code =
+  document.getElementById(
+  "discountCodeInput"
+  ).value;
+
+  const discount =
+  document.getElementById(
+  "discountPercentInput"
+  ).value;
+
+  const type =
+  document.getElementById(
+  "discountType"
+  ).value;
+
+  console.log({
+    code,
+    discount,
+    type
+  });
+
+  alert("تمت إضافة الكود مؤقتاً");
+
+}
+
+window.toggleUsageLimit = function(){
+
+  const type =
+  document.getElementById(
+  "discountType"
+  ).value;
+
+  document.getElementById(
+  "usageLimitBox"
+  ).style.display =
+  type === "limited"
+  ? "block"
+  : "none";
+}
+
+window.addDiscountCode = async function(){
+
+  const code =
+  document.getElementById(
+  "discountCodeInput"
+  ).value.trim();
+
+  const discount =
+  Number(
+    document.getElementById(
+    "discountPercentInput"
+    ).value
+  );
+
+  const type =
+  document.getElementById(
+  "discountType"
+  ).value;
+
+  const usageLimit =
+  Number(
+    document.getElementById(
+    "usageLimit"
+    )?.value || 0
+  );
+
+  if(!code || !discount){
+
+    alert("املأ جميع الحقول");
+
+    return;
+  }
+
+  await setDoc(
+
+    doc(db,"discountCodes",code),
+
+    {
+      code,
+      discount,
+      type,
+      active:true,
+      used:false,
+      maxUses:usageLimit,
+      currentUses:0
+    }
+
+  );
+
+  alert("تم إضافة الكود");
+
+  loadDiscountCodes();
+
+}
+
+window.loadDiscountCodes = async function(){
+
+  const list =
+  document.getElementById(
+  "discountsList"
+  );
+
+  const snap =
+  await getDocs(
+    collection(db,"discountCodes")
+  );
+
+  if(snap.empty){
+
+    list.innerHTML =
+    "لا توجد أكواد حالياً";
+
+    return;
+  }
+
+  list.innerHTML = "";
+
+  snap.forEach(docSnap=>{
+
+    const data =
+    docSnap.data();
+
+    list.innerHTML += `
+
+<div style="
+background:#fff5fa;
+border:1px solid #ffd1e4;
+border-radius:14px;
+padding:12px;
+margin-bottom:10px;
+">
+
+  <b>${data.code}</b>
+
+  <br>
+
+  الخصم:
+  ${data.discount}%
+
+  <br>
+
+  النوع:
+  ${
+    data.type === "single"
+    ? "مرة واحدة"
+    : data.type === "limited"
+      ? "عدد مرات محدد"
+      : "دائم"
+  }
+
+  <br>
+
+  ${
+    data.type === "limited"
+    ? `الاستخدام: ${data.currentUses || 0} / ${data.maxUses || 0}`
+    : ""
+  }
+
+  <br>
+
+  ${
+    data.used
+    ? "✅ مستخدم"
+    : data.active
+      ? "🟢 مفعل"
+      : "🔴 معطل"
+  }
+
+  <br><br>
+
+  <button
+  onclick="toggleDiscountStatus('${data.code}',${data.active})">
+
+  ${
+    data.active
+    ? "تعطيل"
+    : "تفعيل"
+  }
+
+  </button>
+
+  <button
+  onclick="deleteDiscountCode('${data.code}')">
+
+  حذف
+
+  </button>
+
+</div>
+
+`;
+
+  });
+
+}
+
+window.toggleDiscountStatus =
+async function(code,current){
+
+  await updateDoc(
+
+    doc(db,"discountCodes",code),
+
+    {
+      active:!current
+    }
+
+  );
+
+  loadDiscountCodes();
+
+}
+
+window.deleteDiscountCode =
+async function(code){
+
+  if(
+    !confirm(
+      "حذف الكود ؟"
+    )
+  ) return;
+
+  await deleteDoc(
+    doc(
+      db,
+      "discountCodes",
+      code
+    )
+  );
+
+  loadDiscountCodes();
+
+}
+
+window.applyDiscountCode = async function(){
+
+  const code =
+  document.getElementById(
+  "discountCode"
+  ).value.trim();
+
+  if(!code){
+
+    alert("أدخل كود الخصم");
+
+    return;
+  }
+
+  const snap =
+  await getDocs(
+    collection(db,"discountCodes")
+  );
+
+  let found = null;
+
+  snap.forEach(docSnap=>{
+
+    const data =
+    docSnap.data();
+
+    if(
+      data.code.toLowerCase() ===
+      code.toLowerCase()
+    ){
+
+      found = data;
+
+    }
+
+  });
+
+  if(!found){
+
+    alert("كود الخصم غير موجود");
+
+    return;
+  }
+
+  if(!found.active){
+
+    alert("كود الخصم معطل");
+
+    return;
+  }
+  
+  if(
+  found.type === "single" &&
+  found.used
+){
+
+  alert(
+    "تم استخدام هذا الكود سابقاً"
+  );
+
+  return;
+}
+
+if(
+  found.type === "limited" &&
+  found.currentUses >= found.maxUses
+){
+
+  alert(
+    "انتهت صلاحية الكود"
+  );
+
+  return;
+}
+
+  appliedDiscount =
+  found.discount;
+
+  appliedCode =
+  found;
+
+  updateCart();
+
+}

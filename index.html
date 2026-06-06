@@ -1,132 +1,51 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
 
+<head>
 <link rel="preconnect" href="https://www.gstatic.com">
 <link rel="preconnect" href="https://firestore.googleapis.com">
 <link rel="preconnect" href="https://i.ibb.co">
 <link rel="preconnect" href="https://i.imgur.com">
 <meta charset="UTF-8">
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="viewport"content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>صيدلية مريم يونس</title>
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<link rel="preload" as="image"
-href="https://png.pngtree.com/thumb_back/fh260/background/20250304/pngtree-assorted-pharmaceuticals-and-syringes-arranged-neatly-on-turquoise-background-image_17048511.jpg">
-
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preload" as="image"href="https://png.pngtree.com/thumb_back/fh260/background/20250304/pngtree-assorted-pharmaceuticals-and-syringes-arranged-neatly-on-turquoise-background-image_17048511.jpg">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ff4fa3">
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
-
-<div class="product-popup"
-id="productPopup">
-
+<div class="product-popup"id="productPopup">
 <div class="popup-content">
-
-<span class="close-popup"
-onclick="closePopup()">
-عودة
-</span>
-
+<span class="close-popup"onclick="closePopup()">عودة</span>
 <img id="popupImage">
-
 <div class="popup-details">
-
 <h2 id="popupName"></h2>
-
 <div class="product-meta">
-
-<div class="product-badge">
-💊 منتج أصلي
-</div>
-
+<div class="product-badge">💊 منتج أصلي</div>
 <div class="product-badge">🚚 توصيل سريع</div>
-
 </div>
-
 <div class="popup-desc-title">تفاصيل المنتج</div>
-
 <p id="popupDesc"></p>
-
 <div class="popup-price"id="popupPrice"></div>
-
-<button
-id="popupBtn"
-class="popup-add-btn">
-
-🛒 أضف للسلة
-
-</button>
-
+<button id="popupBtn"class="popup-add-btn">🛒 أضف للسلة</button>
 </div>
 </div>
 </div>
 
 <header>
-
 <div class="menu-container">
-
-  <button id="darkModeBtn"
-  onclick="toggleDarkMode()">
-  🌜
-  </button>
-
-<button class="menu-btn"
-onclick="toggleMenu()">
-<i class="fa-solid fa-bars"></i>
-</button>
-
-
-<div class="dropdown-menu"
-id="dropdownMenu">
-
-<button id="loginMenuBtn"
-onclick="openAdminLogin()">
-
-🔐 تسجيل دخول
-
-</button>
-
-<button id="logoutMenuBtn"
-onclick="logoutAdmin()"
-style="display:none;">
-
-🚪 تسجيل خروج
-
-</button>
-
-<button id="ordersMenuBtn"
-onclick="openOrdersPage()"
-style="display:none;">
-
-📦 الطلبات
-
-</button>
-
-<button id="discountsMenuBtn"
-onclick="openDiscountsPanel()"
-style="display:none;">
-
-🎟️ أكواد الخصم
-
-</button>
-
-<button onclick="openAddLogin()">
-<i class="fa-solid fa-plus"></i>
-إضافة منتج
-</button>
-
-</div>
+  <button id="darkModeBtn"onclick="toggleDarkMode()">🌜</button>
+  <button class="menu-btn"onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+<div class="dropdown-menu"id="dropdownMenu">
+ <button id="loginMenuBtn"onclick="openAdminLogin()"><i class="fa-solid fa-user-shield"></i> تسجيل دخول</button>
+ <button id="ordersMenuBtn"onclick="openOrdersPage()"style="display:none;"><i class="fa-solid fa-cart-shopping"></i>  سجل الطلبات  </button>
+ <button id="discountsMenuBtn"onclick="openDiscountsPanel()"style="display:none;"><i class="fa-solid fa-tags"></i>  أكواد ألخصومات  </button>
+ <button id="addProductMenuBtn"onclick="openAddLogin()"style="display:none;"><i class="fa-solid fa-plus"></i>   إضافة منتج جديد  </button>
+ <button id="logoutMenuBtn"onclick="logoutAdmin()"style="display:none;"><i class="fa-solid fa-arrow-right-from-bracket"></i>  تسجيل خروج  </button>
+ </div>
 </div>
 
 <div class="header-content">
@@ -136,26 +55,14 @@ style="display:none;">
 
 <h1>⚕️ صيدلية مريم يونس 💗</h1>
 
-
 <div class="top-marquee">
   <div class="marquee-track">
-
-    <span>💖 منتجات أصلية ومضمونة 💖</span>
-    <span>✨ أفضل أسعار الصيدليات✨</span>
-    <span>🚚 توصيل سريع لكل المحافظات 🚚</span>
-    <span>📞 دعم عبر الواتساب 📞</span>
     <span>🛍️ عروض مستمرة يومياً 🛍️</span>
     <span>🔥 تخفيضات حصرية 🔥</span>
     <span>💳 دفع عند الاستلام 💳</span>
-    <span>💖 منتجات أصلية ومضمونة 💖</span>
-    <span>✨ أفضل أسعار الصيدليات✨</span>
-    <span>🚚 توصيل سريع لكل المحافظات 🚚</span>
-    <span>📞 دعم عبر الواتساب 📞</span>
     <span>🛍️ عروض مستمرة يومياً 🛍️</span>
     <span>🔥 تخفيضات حصرية 🔥</span>
     <span>💳 دفع عند الاستلام 💳</span>
-
-
   </div>
 </div>
 
@@ -173,71 +80,43 @@ style="display:none;">
 </header>
 
 <div class="banner-slider">
-
   <div class="slides">
-
     <div class="slide">
       <img src="https://i.ibb.co/yFVLVCqj/banner1.webp">
     </div>
-
     <div class="slide">
       <img src="https://i.ibb.co/gMVc7Z0s/banner2.webp">
     </div>
-
     <div class="slide">
       <img src="https://i.ibb.co/DhmVLPT/banner3.webp">
     </div>
-
   </div>
-
 </div>
 
 
 <div class="search-box">
-
   <div class="social-icons">
-    
     <a href="https://www.instagram.com/marympharmacy?igsh=a3pvODZweGJmc3Qz" target="_blank">
       <i class="fa-brands fa-instagram"></i>
     </a>
-
     <a href="https://tiktok.com/@rxartists" target="_blank">
       <i class="fa-brands fa-tiktok"></i>
     </a>
-
       <a href="https://facebook.com/profile.php?id=61565909115358&mibextid=LQQJ4d" target="_blank">
     <i class="fa-brands fa-facebook-f"></i>
   </a>
-
   </div>
-
   <div class="search-wrapper">
     <i class="fa-solid fa-magnifying-glass"></i>
     <input type="text" id="searchInput"
     placeholder="ابحث عن منتج..."
     onkeyup="searchProducts(this.value)"> </div>
-
 </div>
 
 <div class="features">
-
-<div class="feature-card"
-onclick="openDeliveryPopup()">
-🚚<br>
-توصيل سريع
-</div>
-
-<div class="feature-card"
-onclick="openOriginalPopup()">
-💊<br>
-منتجات أصلية
-</div>
-
-<div class="feature-card"
-onclick="openWhatsappPopup()">
-📞<br>
-دعم واتساب
-</div>
+ <div class="feature-card"onclick="openDeliveryPopup()">🚚<br>توصيل سريع</div>
+ <div class="feature-card"onclick="openOriginalPopup()">💊<br>منتجات أصلية</div>
+ <div class="feature-card"onclick="openWhatsappPopup()">📞<br>دعم واتساب</div>
 </div>
 
 <div style="
@@ -265,133 +144,77 @@ text-decoration:none;
 </div>
 
 <div class="categories">
-
-<div class="cat active"
-onclick="filterCat('الكل',event)">
-<i class="fa-solid fa-border-all"></i>
-<div>الجميع</div>
+  <div class="cat active" onclick="filterCat('latest',event)">
+ <i class="fa-solid fa-clock"></i>
+ <div>أحدث المنتجات</div>
 </div>
-
-<div class="cat"
-onclick="filterCat('المسكنات والمفاصل',event)">
-<i class="fa-solid fa-pills"></i>
-<div>المسكنات</div>
-</div>
-
-<div class="cat"
-onclick="filterCat('الفيتامينات',event)">
-<i class="fa-solid fa-capsules"></i>
-<div>الفيتامينات</div>
-</div>
-
-<div class="cat"
-onclick="filterCat('العناية بالبشرة',event)">
-<i class="fa-solid fa-spa"></i>
-<div>البشرة</div>
-</div>
-
-<div class="cat"
-onclick="filterCat('العناية بالاسنان',event)">
-<i class="fa-solid fa-tooth"></i>
-<div>الأسنان</div>
-</div>
-
-<div class="cat"
-onclick="filterCat('العناية بالشعر',event)">
-<i class="fa-solid fa-scissors"></i>
-<div>الشعر</div>
-</div>
-
-<div class="cat"
-onclick="filterCat('الاطفال',event)">
-<i class="fa-solid fa-baby"></i>
-<div>الأطفال</div>
-</div>
-
-<div class="cat"
-onclick="filterCat('الجهاز الهضمي',event)">
-<i class="fa-solid fa-notes-medical"></i>
-<div>الجهاز الهضمي</div>
-</div>
-
-<div class="cat"
-onclick="filterCat('المجاري البوليه',event)">
-<i class="fa-solid fa-droplet"></i>
-<div>المجاري البوليه</div>
-</div>
-
-<div class="cat"
-onclick="filterCat('النسائية',event)">
-<i class="fa-solid fa-person-dress"></i>
-<div>النسائية</div>
-</div>
-
+ <div class="cat"onclick="filterCat('الكل',event)">
+ <i class="fa-solid fa-border-all"></i>
+ <div>الجميع</div>
+ </div>
+ <div class="cat"onclick="filterCat('المسكنات والمفاصل',event)">
+ <i class="fa-solid fa-pills"></i>
+ <div>المسكنات</div>
+ </div>
+ <div class="cat"onclick="filterCat('الفيتامينات',event)">
+ <i class="fa-solid fa-capsules"></i>
+ <div>الفيتامينات</div>
+ </div>
+ <div class="cat"onclick="filterCat('العناية بالبشرة',event)">
+ <i class="fa-solid fa-spa"></i>
+ <div>البشرة</div>
+ </div>
+ <div class="cat"onclick="filterCat('العناية بالاسنان',event)">
+ <i class="fa-solid fa-tooth"></i>
+ <div>الأسنان</div>
+ </div>
+ <div class="cat"onclick="filterCat('العناية بالشعر',event)">
+ <i class="fa-solid fa-scissors"></i>
+ <div>الشعر</div>
+ </div>
+ <div class="cat"onclick="filterCat('الاطفال',event)">
+ <i class="fa-solid fa-baby"></i>
+ <div>الأطفال</div>
+ </div>
+ <div class="cat"onclick="filterCat('الجهاز الهضمي',event)">
+ <i class="fa-solid fa-notes-medical"></i>
+ <div>الجهاز الهضمي</div>
+ </div>
+ <div class="cat"onclick="filterCat('المجاري البوليه',event)">
+ <i class="fa-solid fa-droplet"></i>
+ <div>المجاري البوليه</div>
+ </div>
+ <div class="cat"onclick="filterCat('النسائية',event)">
+ <i class="fa-solid fa-person-dress"></i>
+ <div>النسائية</div>
+ </div>
 </div>
 
 <div class="counts-wrapper">
-
-<div class="products-count"
-id="productsCount">
-عدد المنتجات: 0
-
-</div>
-
-<div class="products-count available-count"
-id="availableCount">
-المتوفرة: 0
-</div>
-
-<div class="products-count unavailable-count"
-id="unavailableCount">
-غير المتوفرة: 0
-</div>
-
-<div class="products-count"id="visitorsCountBox">
-زوار الموقع: <span id="visitorsCount">0</span>
-</div>
-
+ <div class="products-count"id="productsCount">
+ عدد المنتجات: 0</div>
+ <div class="products-count available-count"id="availableCount">
+ المتوفرة: 0</div>
+ <div class="products-count unavailable-count"id="unavailableCount">
+ غير المتوفرة: 0</div>
+ <div class="products-count"id="visitorsCountBox">
+ زوار الموقع: <span id="visitorsCount">0</span></div>
 </div>
 
 <div class="sort-box">
-
-<span class="sort-text">
-
-ترتيب حسب :
-
-</span>
-
-<select id="sortSelect"
-onchange="sortProducts()">
-
-<option value="newest">
-الأحدث
-</option>
-
-<option value="name">
-الاسم
-</option>
-
-<option value="lowPrice">
-الأرخص
-</option>
-
-<option value="highPrice">
-الأغلى
-</option>
-
-</select>
-
+ <span class="sort-text"> عرض حسب : </span>
+ <select id="sortSelect"onchange="sortProducts()">
+   <option value="default">الافتراضي</option>
+   <option value="newest">الأحدث</option>
+   <option value="name">الاسم</option>
+   <option value="lowPrice"> الأرخص أولاً </option>
+   <option value="highPrice"> الأغلى أولاً </option>
+ </select>
 </div>
 
 <div class="products"id="products"></div>
-
-<div class="cart-btn"
-onclick="toggleCart()">
-🛒 <span id="count">0</span>
-</div>
-
+<div class="cart-btn"onclick="toggleCart()">🛒 <span id="count">0</span></div>
 <div class="cart" id="cart">
-
 <button class="close-cart" onclick="closeCart()"> ✕ </button>
 
 <h2>السلة</h2>
@@ -401,25 +224,20 @@ onclick="toggleCart()">
 <input id="caddress" placeholder="العنوان">
 
 <div id="cartItems"></div>
-
 <div class="total">
 
 <div style="
 margin-bottom:8px;
 color:#ff4fa3;
 font-weight:bold;
-">
-التوصيل لجميع المحافظات:
-5000 IQD
-</div>
+">التوصيل لجميع المحافظات:
+5000 IQD</div>
 
 <div style="
 font-size:14px;
 color:#666;
 margin-bottom:10px;
-">
-* يتم إضافة أجور التوصيل تلقائياً
-</div>
+">* يتم إضافة أجور التوصيل تلقائياً</div>
 
 <div id="discountResult"></div>
 
@@ -432,309 +250,120 @@ font-size:18px;
 <span id="total">0</span>
 IQD
 </div>
-
 </div>
 
-<input
-id="discountCode"
-placeholder="أدخل كود الخصم">
-
-<button
-class="discount-btn"
-onclick="applyDiscountCode()">
-تطبيق كود الخصم
-</button>
-
+<input id="discountCode"placeholder="أدخل كود الخصم">
+<button class="discount-btn"onclick="applyDiscountCode()">تطبيق كود الخصم</button>
 <div id="discountResult"></div>
-
-<button onclick="sendOrder()">
-إرسال الطلب
-</button>
+<button onclick="sendOrder()">إرسال الطلب</button>
 
 </div>
 
-<footer>
-© 2026 صيدلية مريم يونس
-</footer>
+<footer>© 2026 صيدلية مريم يونس</footer>
 
-<div class="overlay"
-id="overlay">
-
-<div class="login-box"
-id="loginBox">
+<div class="overlay"id="overlay">
+<div class="login-box"id="loginBox">
 
 <h2>تسجيل الدخول</h2>
 
-<input type="email"
-id="adminEmail"
-placeholder="الإيميل">
+<input type="email"id="adminEmail"placeholder="الإيميل">
+<input type="password"id="adminPass"placeholder="الباسورد">
 
-<input type="password"
-id="adminPass"
-placeholder="الباسورد">
-
-<button onclick="loginAdmin()">
-دخول
-</button>
-
-<button class="close-btn"
-onclick="closePanels()">
-إغلاق
-</button>
+<button onclick="loginAdmin()">دخول</button>
+<button class="close-btn"onclick="closePanels()">إغلاق</button>
 
 <p id="loginMsg"></p>
 
 </div>
 
-<div class="admin-panel"
-id="addPanel">
+<div class="admin-panel"id="addPanel">
 
 <h2>إضافة منتج</h2>
 
-<input id="name"
-placeholder="اسم المنتج">
-
-<input id="price"
-type="number"
-placeholder="السعر">
-
-<input
-type="file"
-id="imageFile"
-accept="image/*">
-
-<textarea id="desc"
-placeholder="الوصف"></textarea>
+<input id="name"placeholder="اسم المنتج">
+<input id="price"type="number"placeholder="السعر">
+<input type="file"id="imageFile"accept="image/*">
+<textarea id="desc"placeholder="الوصف"></textarea>
 
 <div id="cat">
-
-<label>
-<input type="checkbox"
-value="المسكنات والمفاصل">
-المسكنات والمفاصل
-</label>
-
-<label>
-<input type="checkbox"
-value="الفيتامينات">
-الفيتامينات
-</label>
-
-<label>
-<input type="checkbox"
-value="العناية بالبشرة">
-العناية بالبشرة
-</label>
-
-<label>
-<input type="checkbox"
-value="العناية بالاسنان">
-العناية بالاسنان
-</label>
-
-<label>
-<input type="checkbox"
-value="العناية بالشعر">
-العناية بالشعر
-</label>
-
-<label>
-<input type="checkbox"
-value="الاطفال">
-الاطفال
-</label>
-
-<label>
-<input type="checkbox"
-value="الجهاز الهضمي">
-الجهاز الهضمي
-</label>
-
-<label>
-<input type="checkbox"
-value="المجاري البوليه">
-المجاري البوليه
-</label>
-
-<label>
-<input type="checkbox"
-value="النسائية">
-النسائية
-</label>
-
+ <label><input type="checkbox"value="المسكنات والمفاصل">المسكنات والمفاصل</label>
+ <label><input type="checkbox"value="الفيتامينات">الفيتامينات</label>
+ <label><input type="checkbox"value="العناية بالبشرة">العناية بالبشرة</label>
+ <label><input type="checkbox"value="العناية بالاسنان">العناية بالاسنان</label>
+ <label><input type="checkbox"value="العناية بالشعر">العناية بالشعر</label>
+ <label><input type="checkbox"value="الاطفال">الاطفال</label>
+ <label><input type="checkbox"value="الجهاز الهضمي">الجهاز الهضمي</label>
+ <label><input type="checkbox"value="المجاري البوليه">المجاري البوليه</label>
+ <label><input type="checkbox"value="النسائية">النسائية</label>
 </div>
 
-<button onclick="addProduct()">
-إضافة المنتج
-</button>
-
-<button class="close-btn"
-onclick="closePanels()">
-إغلاق
-</button>
+<button onclick="addProduct()">إضافة المنتج</button>
+<button class="close-btn"onclick="closePanels()">إغلاق</button>
 
 <p id="msg"></p>
 
 </div>
 
-<div class="admin-panel"
-id="deletePanel">
+<div class="admin-panel"id="deletePanel">
 
 <h2>حذف منتج</h2>
 
-<input id="deleteName"
-placeholder="اسم المنتج">
+<input id="deleteName"placeholder="اسم المنتج">
 
-<button onclick="deleteProduct()">
-حذف المنتج
-</button>
-
-<button class="close-btn"
-onclick="closePanels()">
-إغلاق
-</button>
+<button onclick="deleteProduct()">حذف المنتج</button>
+<button class="close-btn"onclick="closePanels()">إغلاق</button>
 
 <p id="deleteMsg"></p>
 
 </div>
 
-<div class="admin-panel"
-id="editPanel">
+<div class="admin-panel"id="editPanel">
 
 <h2>تعديل منتج</h2>
 
-<input id="newName"
-placeholder="الاسم الجديد">
-
-<input id="editPrice"
-type="number"
-placeholder="السعر">
-
-<input
-type="file"
-id="editImageFile"
-accept="image/*">
-
-<textarea id="editDesc"
-placeholder="الوصف"></textarea>
+<input id="newName"placeholder="الاسم الجديد">
+<input id="editPrice"type="number"placeholder="السعر">
+<input type="file"id="editImageFile"accept="image/*">
+<textarea id="editDesc"placeholder="الوصف"></textarea>
 
 <div id="editCat">
-
-<label>
-<input type="checkbox"
-value="المسكنات والمفاصل">
-المسكنات والمفاصل
-</label>
-
-<label>
-<input type="checkbox"
-value="الفيتامينات">
-الفيتامينات
-</label>
-
-<label>
-<input type="checkbox"
-value="العناية بالبشرة">
-العناية بالبشرة
-</label>
-
-<label>
-<input type="checkbox"
-value="العناية بالاسنان">
-العناية بالاسنان
-</label>
-
-<label>
-<input type="checkbox"
-value="العناية بالشعر">
-العناية بالشعر
-</label>
-
-<label>
-<input type="checkbox"
-value="الاطفال">
-الاطفال
-</label>
-
-<label>
-<input type="checkbox"
-value="الجهاز الهضمي">
-الجهاز الهضمي
-</label>
-
-<label>
-<input type="checkbox"
-value="المجاري البوليه">
-المجاري البوليه
-</label>
-
-<label>
-<input type="checkbox"
-value="النسائية">
-النسائية
-</label>
-
+ <label><input type="checkbox"value="المسكنات والمفاصل">المسكنات والمفاصل</label>
+ <label><input type="checkbox"value="الفيتامينات">الفيتامينات</label>
+ <label><input type="checkbox"value="العناية بالبشرة">العناية بالبشرة</label>
+ <label><input type="checkbox"value="العناية بالاسنان">العناية بالاسنان</label>
+ <label><input type="checkbox"value="العناية بالشعر">العناية بالشعر</label>
+ <label><input type="checkbox"value="الاطفال">الاطفال</label>
+ <label><input type="checkbox"value="الجهاز الهضمي">الجهاز الهضمي</label>
+ <label><input type="checkbox"value="المجاري البوليه">المجاري البوليه</label>
+ <label><input type="checkbox"value="النسائية">النسائية</label>
 </div>
 
 <select id="editAvailable">
-
-<option value="true">
-🟢 متوفر
-</option>
-
-<option value="false">
-🔴 غير متوفر
-</option>
-
+ <option value="true">🟢 متوفر</option>
+ <option value="false">🔴 غير متوفر</option>
 </select>
 
-<button onclick="editProduct()">
-حفظ التعديل
-</button>
-
-<button class="close-btn"
-onclick="closePanels()">
-إغلاق
-</button>
+<button onclick="editProduct()">حفظ التعديل</button>
+<button class="close-btn"onclick="closePanels()">إغلاق</button>
 
 <p id="editMsg"></p>
 
 </div>
-
 </div>
 
+<div id="toast">✅ تمت إضافة المنتج للسلة</div>
 
-
-<div id="toast">
-
-✅ تمت إضافة المنتج للسلة
-
-</div>
-
-<div class="overlay"
-id="whatsappPopup"
-style="display:none;z-index:99999;">
-
-<div class="login-box"
-style="text-align:center;">
-
-<h2 style="color:#ff4fa3;">
-
-📞 دعم واتساب
-
-</h2>
-
+<div class="overlay"id="whatsappPopup"style="display:none;z-index:99999;">
+<div class="login-box"style="text-align:center;">
+<h2 style="color:#ff4fa3;">📞 دعم واتساب</h2>
 <p style="line-height:2;color:#555;">
-
 للتواصل والاستفسار
 تواصل عبر واتساب
-
 </p>
 
 <a
 href="https://wa.me/9647876700165"
 target="_blank"
-
 style="
 display:block;
 background:#25D366;
@@ -745,33 +374,20 @@ text-decoration:none;
 font-weight:bold;
 margin-top:15px;
 ">
-
 فتح محادثة واتساب
-
 </a>
 
-<button class="close-btn"onclick="closeWhatsappPopup()"style="margin-top:10px;">
-إغلاق
-</button>
+<button class="close-btn"onclick="closeWhatsappPopup()"style="margin-top:10px;">إغلاق</button>
 
 </div>
 </div>
-
-<!-- الصق هنا نافذة المنتجات الأصلية -->
 
 <div class="overlay"id="originalPopup"style="display:none;z-index:99999;">
-
 <div class="login-box"style="text-align:center;">
-
-<h2 style="color:#ff4fa3;">
-💊 منتجات أصلية
-</h2>
-
+<h2 style="color:#ff4fa3;">💊 منتجات أصلية</h2>
 <p style="line-height:2;color:#555;font-size:15px;">
-
 جميع المنتجات المتوفرة
 لدينا أصلية ومضمونة
-
 <br><br>
 نحرص دائماً على توفير
 أفضل المناشئ العالمية
@@ -779,27 +395,14 @@ margin-top:15px;
 على سلامتكم وثقتكم
 ✨
 </p>
-<button
-class="close-btn"
-onclick="closeOriginalPopup()">
-إغلاق
-</button>
+<button class="close-btn"onclick="closeOriginalPopup()">إغلاق</button>
 </div>
 </div>
 
-<div class="overlay"
-id="deliveryPopup"
-style="display:none;z-index:99999;">
-
+<div class="overlay"id="deliveryPopup"style="display:none;z-index:99999;">
 <div class="login-box"style="text-align:center;">
-
 <h2 style="color:#ff4fa3;">🚚 التوصيل</h2>
-
-<p style="
-line-height:2;
-color:#555;
-font-size:15px;
-">
+<p style="line-height:2;color:#555;font-size:15px;">
 نوفر خدمة توصيل سريعة
 خلال 48 ساعة
 <br><br>
@@ -812,118 +415,54 @@ font-size:15px;
 </div>
 </div>
 
-<div class="overlay"
-id="ordersPanel"
-style="display:none;z-index:99999;">
-
+<div class="overlay"id="ordersPanel"style="display:none;z-index:99999;">
   <div class="login-box">
-
     <div class="orders-header">
-
   <h2>📦 الطلبات</h2>
-
-  <button class="orders-close-btn"
-  onclick="document.getElementById('ordersPanel').style.display='none'">
-    x
-  </button>
-
+  <button class="orders-close-btn"onclick="document.getElementById('ordersPanel').style.display='none'"> x</button>
 </div>
-
-    <div class="orders-summary">
-
+<div class="orders-summary">
   <div id="ordersTotal" class="order-total-box">
     مجموع الأرباح: 0 IQD
   </div>
-
   <div id="siteProfit" class="order-total-box site-profit">
     أرباح الموقع 5%: 0 IQD
   </div>
-
 </div>
-
     <div id="ordersList">
       لا توجد طلبات
     </div>
-
   </div>
-
 </div>
 
 <button id="scrollTopBtn"onclick="scrollToTop()">↑</button>
 
-<div class="overlay"
-id="discountsPanel"
-style="display:none;z-index:99999;">
-
+<div class="overlay"id="discountsPanel"style="display:none;z-index:99999;">
   <div class="login-box">
-
     <div class="orders-header">
-
       <h2>🎟️ أكواد الخصم</h2>
-
-      <button class="orders-close-btn"
-      onclick="closeDiscountsPanel()">
-        ×
-      </button>
-
+      <button class="orders-close-btn"onclick="closeDiscountsPanel()"> × </button>
     </div>
-
     <div id="discountsContent">
+  <input id="discountCodeInput"placeholder="كود الخصم">
+  <input id="discountPercentInput"type="number"placeholder="نسبة الخصم %">
 
-  <input
-  id="discountCodeInput"
-  placeholder="كود الخصم">
-
-  <input
-  id="discountPercentInput"
-  type="number"
-  placeholder="نسبة الخصم %">
-
-  <select id="discountType"
-    onchange="toggleUsageLimit()">
-
-  <option value="multi">
-    دائم
-  </option>
-
-  <option value="single">
-    استخدام مرة واحدة
-  </option>
-
-  <option value="limited">
-    عدد استخدامات محدد
-  </option>
-
+<select id="discountType"onchange="toggleUsageLimit()">
+  <option value="multi"> دائم</option>
+  <option value="single"> استخدام مرة واحدة</option>
+  <option value="limited"> عدد استخدامات محدد</option>
 </select>
 
-<div id="usageLimitBox"
-style="display:none;">
-
-  <input
-  id="usageLimit"
-  type="number"
-  placeholder="عدد الاستخدامات">
-
+<div id="usageLimitBox"style="display:none;">
+  <input id="usageLimit"type="number"placeholder="عدد الاستخدامات">
 </div>
-
-
-  <button onclick="addDiscountCode()">
-    إضافة الكود
-  </button>
-
+  <button onclick="addDiscountCode()"> إضافة الكود</button>
   <hr style="margin:15px 0;">
-
-  <div id="discountsList">
-    لا توجد أكواد حالياً
-  </div>
-
+  <div id="discountsList"> لا توجد أكواد حالياً</div>
 </div>
-
   </div>
-
 </div>
 
 <script type="module" src="app.js"></script>
-
 </body>
 </html>

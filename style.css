@@ -17,8 +17,7 @@ header{
   #ff99c8 70%,
   #ff6fad 100%
   );
-
-  padding:10px 15px 12px;
+  padding:4px 15px 4px;
   text-align:center;
   position:relative;
   border-bottom-left-radius:22px;
@@ -196,18 +195,14 @@ header p{
 }
 
 @keyframes menuShow{
-
   from{
     opacity:0;
     transform:
     translateY(-10px)
     scale(.95);
   }
-
   to{
-
     opacity:1;
-
     transform:
     translateY(0)
     scale(1);
@@ -255,7 +250,7 @@ header p{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:10px;
-  padding:0 15px 15px;
+  padding:0 15px 5px;
 }
 
 .feature-card{
@@ -697,7 +692,6 @@ select{
     transform:scale(.8);
     opacity:0;
   }
-
   to{
     transform:scale(1);
     opacity:1;
@@ -787,7 +781,6 @@ footer{
   animation:bubbleMove linear infinite;
 }
 
-/* فقاعه 1 */
 .bubbles span:nth-child(1){
   width:45px;
   height:45px;
@@ -795,7 +788,6 @@ footer{
   animation-duration:7s;
 }
 
-/* فقاعه 2 */
 .bubbles span:nth-child(2){
   width:25px;
   height:25px;
@@ -803,7 +795,6 @@ footer{
   animation-duration:9s;
 }
 
-/* فقاعه 3 */
 .bubbles span:nth-child(3){
   width:60px;
   height:60px;
@@ -811,7 +802,6 @@ footer{
   animation-duration:11s;
 }
 
-/* فقاعه 4 */
 .bubbles span:nth-child(4){
   width:35px;
   height:35px;
@@ -819,7 +809,6 @@ footer{
   animation-duration:8s;
 }
 
-/* فقاعه 5 */
 .bubbles span:nth-child(5){
   width:20px;
   height:20px;
@@ -831,7 +820,6 @@ footer{
   0%{
     transform:
     translateY(0) scale(1);
-
     opacity:0;
   }
   20%{
@@ -840,14 +828,13 @@ footer{
   100%{
     transform:
     translateY(-320px) scale(1.3);
-
     opacity:0;
   }
 }
 
 .banner-slider{
   width:92%;
-  margin:18px auto;
+  margin:8px auto 4px ;
   overflow:hidden;
   border-radius:24px;
   box-shadow:
@@ -870,7 +857,7 @@ footer{
 
 .slide img{
   width:100%;
-  height:180px;
+  height:150px;
   object-fit:cover;
   display:block;
 }
@@ -929,7 +916,6 @@ footer{
 
 html,
 body{
-
   width:100%;
   overflow-x:hidden;
   overscroll-behavior:none;
@@ -1088,11 +1074,10 @@ img{
   display:flex;
   align-items:center;
   gap:10px;
-  padding:15px;
+  padding:8px;
   justify-content:center;
 }
 
-/* كبسولة السوشيال */
 .social-icons{
   display:flex;
   gap:10px;
@@ -1115,12 +1100,10 @@ img{
   transition:.3s;
 }
 
-/* انستا */
 .social-icons a:nth-child(1){
   background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);
 }
 
-/* تيك توك */
 .social-icons a:nth-child(2){
   background:black;
 }
@@ -1241,8 +1224,6 @@ img{
   transform:translateY(-3px);
 }
 
-/* شريط النص المتحرك */
-
 .marquee-track{
   display:flex;
   width:max-content;
@@ -1271,7 +1252,6 @@ img{
   );
   box-shadow:
   0 8px 22px rgba(255,79,163,.22);
-
   position:relative;
 }
 
@@ -1279,7 +1259,6 @@ img{
   0%{
     transform: translateX(-100%);
   }
-
   100%{
     transform: translateX(100%);
   }

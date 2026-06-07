@@ -44,7 +44,8 @@
  <button id="ordersMenuBtn"onclick="openOrdersPage()"style="display:none;"><i class="fa-solid fa-cart-shopping"></i>  سجل الطلبات  </button>
  <button id="discountsMenuBtn"onclick="openDiscountsPanel()"style="display:none;"><i class="fa-solid fa-tags"></i>  أكواد ألخصومات  </button>
  <button id="addProductMenuBtn"onclick="openAddLogin()"style="display:none;"><i class="fa-solid fa-plus"></i>   إضافة منتج جديد  </button>
- <button id="logoutMenuBtn"onclick="logoutAdmin()"style="display:none;"><i class="fa-solid fa-arrow-right-from-bracket"></i>  تسجيل خروج  </button>
+<button id="requestsMenuBtn"onclick="openRequestsPanel()"style="display:none;"><i class="fa-solid fa-clipboard-list"></i>  طلبات المنتجات  </button> 
+<button id="logoutMenuBtn"onclick="logoutAdmin()"style="display:none;"><i class="fa-solid fa-arrow-right-from-bracket"></i>  تسجيل خروج  </button>
  </div>
 </div>
 
@@ -96,21 +97,13 @@
 
 <div class="search-box">
   <div class="social-icons">
-    <a href="https://www.instagram.com/marympharmacy?igsh=a3pvODZweGJmc3Qz" target="_blank">
-      <i class="fa-brands fa-instagram"></i>
-    </a>
-    <a href="https://tiktok.com/@rxartists" target="_blank">
-      <i class="fa-brands fa-tiktok"></i>
-    </a>
-      <a href="https://facebook.com/profile.php?id=61565909115358&mibextid=LQQJ4d" target="_blank">
-    <i class="fa-brands fa-facebook-f"></i>
-  </a>
+    <a href="https://www.instagram.com/marympharmacy?igsh=a3pvODZweGJmc3Qz" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://tiktok.com/@rxartists" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+    <a href="https://facebook.com/profile.php?id=61565909115358&mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
   </div>
-  <div class="search-wrapper">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" id="searchInput"
-    placeholder="ابحث عن منتج..."
-    onkeyup="searchProducts(this.value)"> </div>
+  <div class="search-wrapper"><i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchInput"placeholder="ابحث عن منتج..."onkeyup="searchProducts(this.value)"> </div>
+      <button class="request-btn" onclick="openRequestProductPopup()"> طلب منتج جديد </button>
 </div>
 
 <div class="features">
@@ -119,86 +112,53 @@
  <div class="feature-card"onclick="openWhatsappPopup()">📞<br>دعم واتساب</div>
 </div>
 
-<div style="
-background:#d4f5d8;
-margin:10px 15px;
-padding:12px;
-border-radius:14px;
-box-shadow:0 3px 10px rgba(0,0,0,.06);
-text-align:center;
-">
+<div class="location-box">
 📍 <b>العطيفية - شارع الدامرجي - مقابل أسواق تبارك</b>
 <br>
-<a
-href="https://maps.app.goo.gl/t9y7LErT2KnVWSK56?g_st=iwb"
-target="_blank"
-style="
-display:inline-block;
-margin-top:8px;
-color:#ff4fa3;
-font-weight:bold;
-text-decoration:none;
-">
-فتح الموقع على الخرائط
-</a>
+<a href="https://maps.app.goo.gl/t9y7LErT2KnVWSK56?g_st=iwb" target="_blank" class="map-link">فتح الموقع على الخرائط</a>
 </div>
 
 <div class="categories">
-  <div class="cat active" onclick="filterCat('latest',event)">
- <i class="fa-solid fa-clock"></i>
+  <div class="cat active" onclick="filterCat('latest',event)"><i class="fa-solid fa-clock"></i>
  <div>أحدث المنتجات</div>
 </div>
- <div class="cat"onclick="filterCat('الكل',event)">
- <i class="fa-solid fa-border-all"></i>
+ <div class="cat"onclick="filterCat('الكل',event)"><i class="fa-solid fa-border-all"></i>
  <div>الجميع</div>
  </div>
- <div class="cat"onclick="filterCat('المسكنات والمفاصل',event)">
- <i class="fa-solid fa-pills"></i>
+ <div class="cat"onclick="filterCat('المسكنات والمفاصل',event)"><i class="fa-solid fa-pills"></i>
  <div>المسكنات</div>
  </div>
- <div class="cat"onclick="filterCat('الفيتامينات',event)">
- <i class="fa-solid fa-capsules"></i>
+ <div class="cat"onclick="filterCat('الفيتامينات',event)"><i class="fa-solid fa-capsules"></i>
  <div>الفيتامينات</div>
  </div>
- <div class="cat"onclick="filterCat('العناية بالبشرة',event)">
- <i class="fa-solid fa-spa"></i>
+ <div class="cat"onclick="filterCat('العناية بالبشرة',event)"><i class="fa-solid fa-spa"></i>
  <div>البشرة</div>
  </div>
- <div class="cat"onclick="filterCat('العناية بالاسنان',event)">
- <i class="fa-solid fa-tooth"></i>
+ <div class="cat"onclick="filterCat('العناية بالاسنان',event)"><i class="fa-solid fa-tooth"></i>
  <div>الأسنان</div>
  </div>
- <div class="cat"onclick="filterCat('العناية بالشعر',event)">
- <i class="fa-solid fa-scissors"></i>
+ <div class="cat"onclick="filterCat('العناية بالشعر',event)"><i class="fa-solid fa-scissors"></i>
  <div>الشعر</div>
  </div>
- <div class="cat"onclick="filterCat('الاطفال',event)">
- <i class="fa-solid fa-baby"></i>
+ <div class="cat"onclick="filterCat('الاطفال',event)"><i class="fa-solid fa-baby"></i>
  <div>الأطفال</div>
  </div>
- <div class="cat"onclick="filterCat('الجهاز الهضمي',event)">
- <i class="fa-solid fa-notes-medical"></i>
+ <div class="cat"onclick="filterCat('الجهاز الهضمي',event)"><i class="fa-solid fa-notes-medical"></i>
  <div>الجهاز الهضمي</div>
  </div>
- <div class="cat"onclick="filterCat('المجاري البوليه',event)">
- <i class="fa-solid fa-droplet"></i>
+ <div class="cat"onclick="filterCat('المجاري البوليه',event)"><i class="fa-solid fa-droplet"></i>
  <div>المجاري البوليه</div>
  </div>
- <div class="cat"onclick="filterCat('النسائية',event)">
- <i class="fa-solid fa-person-dress"></i>
+ <div class="cat"onclick="filterCat('النسائية',event)"><i class="fa-solid fa-person-dress"></i>
  <div>النسائية</div>
  </div>
 </div>
 
 <div class="counts-wrapper">
- <div class="products-count"id="productsCount">
- عدد المنتجات: 0</div>
- <div class="products-count available-count"id="availableCount">
- المتوفرة: 0</div>
- <div class="products-count unavailable-count"id="unavailableCount">
- غير المتوفرة: 0</div>
- <div class="products-count"id="visitorsCountBox">
- زوار الموقع: <span id="visitorsCount">0</span></div>
+ <div class="products-count"id="productsCount"> عدد المنتجات: 0</div>
+ <div class="products-count available-count"id="availableCount"> المتوفرة: 0</div>
+ <div class="products-count unavailable-count"id="unavailableCount"> غير المتوفرة: 0</div>
+ <div class="products-count"id="visitorsCountBox"> زوار الموقع: <span id="visitorsCount">0</span></div>
 </div>
 
 <div class="sort-box">
@@ -226,26 +186,16 @@ text-decoration:none;
 <div id="cartItems"></div>
 <div class="total">
 
-<div style="
-margin-bottom:8px;
-color:#ff4fa3;
-font-weight:bold;
-">التوصيل لجميع المحافظات:
-5000 IQD</div>
+<div class="delivery-price">
+التوصيل لجميع المحافظات:
+5000 IQD
+</div>
 
-<div style="
-font-size:14px;
-color:#666;
-margin-bottom:10px;
-">* يتم إضافة أجور التوصيل تلقائياً</div>
+<div class="delivery-note">
+* يتم إضافة أجور التوصيل تلقائياً
+</div>
 
-<div id="discountResult"></div>
-
-<div style="
-margin-top:10px;
-font-weight:bold;
-font-size:18px;
-">
+<div class="final-total">
 المجموع النهائي:
 <span id="total">0</span>
 IQD
@@ -260,31 +210,21 @@ IQD
 </div>
 
 <footer>© 2026 صيدلية مريم يونس</footer>
-
 <div class="overlay"id="overlay">
 <div class="login-box"id="loginBox">
-
 <h2>تسجيل الدخول</h2>
-
 <input type="email"id="adminEmail"placeholder="الإيميل">
 <input type="password"id="adminPass"placeholder="الباسورد">
-
 <button onclick="loginAdmin()">دخول</button>
 <button class="close-btn"onclick="closePanels()">إغلاق</button>
-
 <p id="loginMsg"></p>
-
 </div>
-
 <div class="admin-panel"id="addPanel">
-
 <h2>إضافة منتج</h2>
-
 <input id="name"placeholder="اسم المنتج">
 <input id="price"type="number"placeholder="السعر">
 <input type="file"id="imageFile"accept="image/*">
 <textarea id="desc"placeholder="الوصف"></textarea>
-
 <div id="cat">
  <label><input type="checkbox"value="المسكنات والمفاصل">المسكنات والمفاصل</label>
  <label><input type="checkbox"value="الفيتامينات">الفيتامينات</label>
@@ -299,33 +239,21 @@ IQD
 
 <button onclick="addProduct()">إضافة المنتج</button>
 <button class="close-btn"onclick="closePanels()">إغلاق</button>
-
 <p id="msg"></p>
-
 </div>
-
 <div class="admin-panel"id="deletePanel">
-
 <h2>حذف منتج</h2>
-
 <input id="deleteName"placeholder="اسم المنتج">
-
 <button onclick="deleteProduct()">حذف المنتج</button>
 <button class="close-btn"onclick="closePanels()">إغلاق</button>
-
 <p id="deleteMsg"></p>
-
 </div>
-
 <div class="admin-panel"id="editPanel">
-
 <h2>تعديل منتج</h2>
-
 <input id="newName"placeholder="الاسم الجديد">
 <input id="editPrice"type="number"placeholder="السعر">
 <input type="file"id="editImageFile"accept="image/*">
 <textarea id="editDesc"placeholder="الوصف"></textarea>
-
 <div id="editCat">
  <label><input type="checkbox"value="المسكنات والمفاصل">المسكنات والمفاصل</label>
  <label><input type="checkbox"value="الفيتامينات">الفيتامينات</label>
@@ -337,22 +265,16 @@ IQD
  <label><input type="checkbox"value="المجاري البوليه">المجاري البوليه</label>
  <label><input type="checkbox"value="النسائية">النسائية</label>
 </div>
-
 <select id="editAvailable">
  <option value="true">🟢 متوفر</option>
  <option value="false">🔴 غير متوفر</option>
 </select>
-
 <button onclick="editProduct()">حفظ التعديل</button>
 <button class="close-btn"onclick="closePanels()">إغلاق</button>
-
 <p id="editMsg"></p>
-
 </div>
 </div>
-
 <div id="toast">✅ تمت إضافة المنتج للسلة</div>
-
 <div class="overlay"id="whatsappPopup"style="display:none;z-index:99999;">
 <div class="login-box"style="text-align:center;">
 <h2 style="color:#ff4fa3;">📞 دعم واتساب</h2>
@@ -360,28 +282,10 @@ IQD
 للتواصل والاستفسار
 تواصل عبر واتساب
 </p>
-
-<a
-href="https://wa.me/9647876700165"
-target="_blank"
-style="
-display:block;
-background:#25D366;
-color:white;
-padding:14px;
-border-radius:14px;
-text-decoration:none;
-font-weight:bold;
-margin-top:15px;
-">
-فتح محادثة واتساب
-</a>
-
+<a href="https://wa.me/9647876700165" target="_blank" class="whatsapp-link"> فتح محادثة واتساب </a>
 <button class="close-btn"onclick="closeWhatsappPopup()"style="margin-top:10px;">إغلاق</button>
-
 </div>
 </div>
-
 <div class="overlay"id="originalPopup"style="display:none;z-index:99999;">
 <div class="login-box"style="text-align:center;">
 <h2 style="color:#ff4fa3;">💊 منتجات أصلية</h2>
@@ -398,7 +302,6 @@ margin-top:15px;
 <button class="close-btn"onclick="closeOriginalPopup()">إغلاق</button>
 </div>
 </div>
-
 <div class="overlay"id="deliveryPopup"style="display:none;z-index:99999;">
 <div class="login-box"style="text-align:center;">
 <h2 style="color:#ff4fa3;">🚚 التوصيل</h2>
@@ -409,12 +312,9 @@ margin-top:15px;
 التوصيل متاح إلى
 كافة محافظات العراق 🇮🇶
 <br><br>بسعر 5000 دينار عراقي فقط ✨</p>
-
 <button class="close-btn"onclick="closeDeliveryPopup()">إغلاق</button>
-
 </div>
 </div>
-
 <div class="overlay"id="ordersPanel"style="display:none;z-index:99999;">
   <div class="login-box">
     <div class="orders-header">
@@ -434,9 +334,7 @@ margin-top:15px;
     </div>
   </div>
 </div>
-
 <button id="scrollTopBtn"onclick="scrollToTop()">↑</button>
-
 <div class="overlay"id="discountsPanel"style="display:none;z-index:99999;">
   <div class="login-box">
     <div class="orders-header">
@@ -446,13 +344,11 @@ margin-top:15px;
     <div id="discountsContent">
   <input id="discountCodeInput"placeholder="كود الخصم">
   <input id="discountPercentInput"type="number"placeholder="نسبة الخصم %">
-
 <select id="discountType"onchange="toggleUsageLimit()">
   <option value="multi"> دائم</option>
   <option value="single"> استخدام مرة واحدة</option>
   <option value="limited"> عدد استخدامات محدد</option>
 </select>
-
 <div id="usageLimitBox"style="display:none;">
   <input id="usageLimit"type="number"placeholder="عدد الاستخدامات">
 </div>
@@ -462,6 +358,66 @@ margin-top:15px;
 </div>
   </div>
 </div>
+
+<div class="overlay" id="requestProductPopup">
+
+  <div class="login-box">
+
+    <h2>📦 طلب منتج غير متوفر</h2>
+
+    <input
+      id="requestProductName"
+      placeholder="اسم المنتج">
+
+    <input
+      id="requestPhone"
+      placeholder="رقم الهاتف (اختياري)">
+
+    <textarea
+      id="requestNote"
+      placeholder="ملاحظات إضافية">
+    </textarea>
+
+    <button onclick="sendProductRequest()">
+      إرسال الطلب
+    </button>
+
+    <button
+      class="close-btn"
+      onclick="closeRequestProductPopup()">
+      إغلاق
+    </button>
+
+  </div>
+
+</div>
+
+<div class="overlay"
+id="requestsPanel"
+style="display:none;z-index:99999;">
+
+  <div class="login-box">
+
+    <div class="orders-header">
+
+      <h2>📦 طلبات المنتجات</h2>
+
+      <button
+      class="orders-close-btn"
+      onclick="closeRequestsPanel()">
+      ×
+      </button>
+
+    </div>
+
+    <div id="requestsList">
+      لا توجد طلبات
+    </div>
+
+  </div>
+
+</div>
+
 
 <script type="module" src="app.js"></script>
 </body>

@@ -2,12 +2,9 @@ async function compressImage(file){
   return new Promise((resolve)=>{
     const img = new Image();
     const reader = new FileReader();
-    reader.onload = e => {
-      img.src = e.target.result;
-    };
+    reader.onload = e => { img.src = e.target.result; };
     img.onload = () => {
-      const canvas =
-      document.createElement("canvas");
+      const canvas = document.createElement("canvas");
       let width = img.width;
       let height = img.height;
       const maxWidth = 700;
@@ -67,6 +64,7 @@ import {
   deleteDoc,
   updateDoc,
   query,
+  orderBy,
   where,
   increment,
   onSnapshot,
@@ -230,7 +228,6 @@ window.closePopup = function(){
   document.getElementById("productPopup")
   .style.display = "none";
 };
-
 window.filterCat = function(cat,event){
   document.querySelectorAll(".cat")
   .forEach(c=>c.classList.remove("active"));
@@ -257,7 +254,6 @@ window.filterCat = function(cat,event){
     );
   }
 };
-
 function showToast(){
   const toast =
   document.getElementById("toast");
@@ -524,17 +520,19 @@ window.openEditLogin = function(){
 function updateAdminUI(){
 
   if(isAdmin){
-    document.getElementById("loginMenuBtn") .style.display = "none";
-    document.getElementById("logoutMenuBtn") .style.display = "block";
-    document.getElementById("ordersMenuBtn") .style.display = "block";
-    document.getElementById("discountsMenuBtn") .style.display = "block";
+    document.getElementById("loginMenuBtn").style.display = "none";
+    document.getElementById("logoutMenuBtn").style.display = "block";
+    document.getElementById("ordersMenuBtn").style.display = "block";
+    document.getElementById("discountsMenuBtn").style.display = "block";
     document.getElementById("addProductMenuBtn").style.display = "block";
+    document.getElementById("requestsMenuBtn").style.display = "block";
   }else{
     document.getElementById("loginMenuBtn")  .style.display = "block";
     document.getElementById("logoutMenuBtn") .style.display = "none";
     document.getElementById("ordersMenuBtn") .style.display = "none";
     document.getElementById("discountsMenuBtn") .style.display = "none";
     document.getElementById("addProductMenuBtn").style.display = "none";
+    document.getElementById("requestsMenuBtn").style.display = "none";
   }
 }
 window.loginAdmin = async function(){
@@ -1274,3 +1272,121 @@ if(
   found;
   updateCart();
 }
+window.openRequestProductPopup = function(){
+  document.getElementById("requestProductPopup").style.display = "flex";
+}
+window.closeRequestProductPopup = function(){
+  document.getElementById("requestProductPopup").style.display = "none";
+}
+window.sendProductRequest =async function(){
+  const name =
+  document.getElementById("requestProductName").value.trim();
+  const phone =
+  document.getElementById("requestPhone").value.trim();
+  const note =
+  document.getElementById("requestNote").value.trim();
+  if(!name){
+    alert("اكتب اسم المنتج");
+    return;
+  }
+  await addDoc(
+  collection(db,"productRequests"),
+  {
+    name,
+    phone,
+    note,
+    date:Date.now(),
+    provided:false,
+    notified:false
+  }
+);
+  alert("✅ تم استلام طلبك وسنتواصل معك عند توفر المنتج");
+ document.getElementById("requestProductName").value = "";
+ document.getElementById("requestPhone").value = "";
+ document.getElementById("requestNote").value = "";
+  closeRequestProductPopup();
+}
+window.openRequestsPanel = function(){
+  document.getElementById(
+    "requestsPanel"
+  ).style.display = "flex";
+  loadProductRequests();
+}
+window.closeRequestsPanel = function(){
+  document.getElementById("requestsPanel").style.display = "none";
+}
+async function loadProductRequests(){
+  const box =
+  document.getElementById("requestsList");
+  box.innerHTML = "جاري التحميل...";
+  const q = query(
+  collection(db,"productRequests"),
+  orderBy("date","desc")
+);
+const snapshot = await getDocs(q);
+  if(snapshot.empty){
+    box.innerHTML =
+    "لا توجد طلبات";
+    return;
+  }
+  box.innerHTML = "";
+  snapshot.forEach(docu => {
+    const data = docu.data();
+    box.innerHTML += `
+<div class="request-card">
+  <div class="request-title">
+    📦 ${data.name || "-"}
+  </div>
+  <div class="request-info">
+    📞 ${data.phone || "لا يوجد"}
+  </div>
+  <div class="request-note">
+    📝 ${data.note || "لا توجد ملاحظات"}
+  </div>
+  <div class="request-actions">
+    <button
+      class="provided-btn"
+      onclick="markProvided('${docu.id}')">
+      ${data.provided ? "✅ تم توفير المنتج" : "📦 تم توفير المنتج"}
+    </button>
+    <button
+      class="notify-btn"
+      onclick="markNotified('${docu.id}')">
+      ${data.notified ? "✅ تم التبليغ" : "📞 تم التبليغ"}
+    </button>
+  </div>
+</div>
+`;
+  });
+}
+window.markProvided = async function(id){
+  await updateDoc(
+    doc(db,"productRequests",id),
+    {
+      provided:true
+    }
+  );
+  loadProductRequests();
+}
+window.markNotified = async function(id){
+  await updateDoc(
+    doc(db,"productRequests",id),
+    {
+      notified:true
+    }
+  );
+  loadProductRequests();
+}
+box.innerHTML += `
+<div class="request-card">
+  <div class="request-title">
+    📦 ${data.name || "-"}
+  </div>
+  <div class="request-info">
+    📞 ${data.phone || "لا يوجد"}
+  </div>
+  <div class="request-note">
+    📝 ${data.note || "لا توجد ملاحظات"}
+  </div>
+</div>
+`;

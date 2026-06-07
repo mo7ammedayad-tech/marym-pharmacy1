@@ -1,4 +1,6 @@
+html,
 body{
+  width:100%;
   margin:0;
   font-family:Arial;
   background:#f4fbf7;
@@ -6,6 +8,7 @@ body{
   color:#333;
   overflow-x:hidden;
   touch-action:pan-y;
+  overscroll-behavior:none;
 }
 
 header{
@@ -359,6 +362,7 @@ header p{
   transform:translateZ(0);
   will-change:transform;
   transition:.3s;
+  image-rendering:auto;
 }
 
 .card-content{
@@ -523,10 +527,6 @@ select{
   background:white;
   padding:20px;
   border-radius:18px;
-}
-
-.admin-panel{
-  display:none;
 }
 
 .close-btn{
@@ -914,13 +914,7 @@ footer{
   box-sizing:border-box;
 }
 
-html,
-body{
-  width:100%;
-  overflow-x:hidden;
-  overscroll-behavior:none;
-  touch-action:pan-y;
-}
+
 
 img{
   user-select:none;
@@ -1002,6 +996,7 @@ img{
 }
 
 .admin-panel{
+  display:none;
   max-height:85vh;
   overflow-y:auto;
 }
@@ -1116,15 +1111,6 @@ img{
   background:#1877f2;
 }
 
-.card{
-  background:#fff;
-}
-
-.card img{
-  background:#fff;
-  image-rendering:auto;
-}
-
 .skeleton-card{
   background:white;
   border-radius:24px;
@@ -1232,7 +1218,7 @@ img{
   color:#fff;
   font-size:20px;
   font-weight:bold;
-  animation:moveText 25s linear infinite;
+  animation:moveText 15s linear infinite;
 }
 
 .marquee-track span{
@@ -1455,4 +1441,140 @@ body.dark-mode .categories.sticky-active{
 #discountsPanel .login-box{
   max-height: 85vh;
   overflow-y: auto;
+}
+
+.location-box{
+  background:#d4f5d8;
+  margin:10px 15px;
+  padding:12px;
+  border-radius:14px;
+  box-shadow:0 3px 10px rgba(0,0,0,.06);
+  text-align:center;
+}
+
+.map-link{
+  display:inline-block;
+  margin-top:8px;
+  color:#ff4fa3;
+  font-weight:bold;
+  text-decoration:none;
+  transition:.3s;
+}
+
+.map-link:hover{
+  transform:translateY(-2px);
+}
+
+.delivery-price{
+  margin-bottom:8px;
+  color:#ff4fa3;
+  font-weight:bold;
+}
+
+.delivery-note{
+  font-size:14px;
+  color:#666;
+  margin-bottom:10px;
+}
+
+.final-total{
+  margin-top:10px;
+  font-weight:bold;
+  font-size:18px;
+}
+
+.whatsapp-link{
+  display:block;
+  background:#25D366;
+  color:white;
+  padding:14px;
+  border-radius:14px;
+  text-decoration:none;
+  font-weight:bold;
+  margin-top:15px;
+  transition:.3s;
+}
+
+.whatsapp-link:hover{
+  transform:translateY(-2px);
+}
+
+.request-btn{
+  border:none;
+  background:#ff4fa3;
+  color:white;
+  padding:12px 14px;
+  border-radius:50px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+#requestNote{
+  min-height:100px;
+  resize:vertical;
+}
+
+.request-card{
+  background:#fff5fa;
+  border:1px solid #ffd5e8;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:12px;
+}
+
+.request-title{
+  color:#ff4fa3;
+  font-size:17px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.request-info{
+  color:#555;
+  margin-bottom:8px;
+}
+
+.request-note{
+  background:white;
+  padding:10px;
+  border-radius:10px;
+  color:#666;
+  line-height:1.8;
+}
+
+#requestsList{
+  max-height:65vh;
+  overflow-y:auto;
+  margin-top:15px;
+}
+
+#requestsPanel .login-box{
+  width:95%;
+  max-width:800px;
+  max-height:85vh;
+  overflow-y:auto;
+}
+
+.request-actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+
+.request-actions button{
+  flex:1;
+  border:none;
+  border-radius:12px;
+  padding:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.provided-btn{
+  background:#22c55e;
+  color:white;
+}
+
+.notify-btn{
+  background:#3b82f6;
+  color:white;
 }

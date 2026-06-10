@@ -41,6 +41,7 @@
   <button class="menu-btn"onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
 <div class="dropdown-menu"id="dropdownMenu">
  <button id="loginMenuBtn"onclick="openAdminLogin()"><i class="fa-solid fa-user-shield"></i> تسجيل دخول</button>
+ <button id="statsMenuBtn" onclick="openStatsPanel()" style="display:none;"><i class="fa-solid fa-chart-pie"></i>  الإحصائيات </button>
  <button id="ordersMenuBtn"onclick="openOrdersPage()"style="display:none;"><i class="fa-solid fa-cart-shopping"></i>  سجل الطلبات  </button>
  <button id="discountsMenuBtn"onclick="openDiscountsPanel()"style="display:none;"><i class="fa-solid fa-tags"></i>  أكواد ألخصومات  </button>
  <button id="addProductMenuBtn"onclick="openAddLogin()"style="display:none;"><i class="fa-solid fa-plus"></i>   إضافة منتج جديد  </button>
@@ -98,24 +99,23 @@
 <div class="search-box">
   <div class="social-icons">
     <a href="https://www.instagram.com/marympharmacy?igsh=a3pvODZweGJmc3Qz" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://wa.me/9647876700165" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
     <a href="https://tiktok.com/@rxartists" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
     <a href="https://facebook.com/profile.php?id=61565909115358&mibextid=LQQJ4d" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
   </div>
   <div class="search-wrapper"><i class="fa-solid fa-magnifying-glass"></i>
     <input type="text" id="searchInput"placeholder="ابحث عن منتج..."onkeyup="searchProducts(this.value)"> </div>
-      <button class="request-btn" onclick="openRequestProductPopup()"> طلب منتج جديد </button>
+      
 </div>
+
+<br>
+<button class="request-btn" onclick="openRequestProductPopup()"> طلب منتج جديد </button>
+<br>
 
 <div class="features">
  <div class="feature-card"onclick="openDeliveryPopup()">🚚<br>توصيل سريع</div>
  <div class="feature-card"onclick="openOriginalPopup()">💊<br>منتجات أصلية</div>
- <div class="feature-card"onclick="openWhatsappPopup()">📞<br>دعم واتساب</div>
-</div>
-
-<div class="location-box">
-📍 <b>العطيفية - شارع الدامرجي - مقابل أسواق تبارك</b>
-<br>
-<a href="https://maps.app.goo.gl/t9y7LErT2KnVWSK56?g_st=iwb" target="_blank" class="map-link">فتح الموقع على الخرائط</a>
+ <div class="feature-card" onclick="openLocationPopup()">📍<br>عنوان الصيدلية</div>
 </div>
 
 <div class="categories">
@@ -154,13 +154,7 @@
  </div>
 </div>
 
-<div class="counts-wrapper">
- <div class="products-count"id="productsCount"> عدد المنتجات: 0</div>
- <div class="products-count available-count"id="availableCount"> المتوفرة: 0</div>
- <div class="products-count unavailable-count"id="unavailableCount"> غير المتوفرة: 0</div>
- <div class="products-count"id="visitorsCountBox"> زوار الموقع: <span id="visitorsCount">0</span></div>
-</div>
-
+<div class="sort-pill">
 <div class="sort-box">
  <span class="sort-text"> عرض حسب : </span>
  <select id="sortSelect"onchange="sortProducts()">
@@ -170,6 +164,7 @@
    <option value="lowPrice"> الأرخص أولاً </option>
    <option value="highPrice"> الأغلى أولاً </option>
  </select>
+</div>
 </div>
 
 <div class="products"id="products"></div>
@@ -275,16 +270,26 @@ IQD
 </div>
 </div>
 <div id="toast">✅ تمت إضافة المنتج للسلة</div>
-<div class="overlay"id="whatsappPopup"style="display:none;z-index:99999;">
-<div class="login-box"style="text-align:center;">
-<h2 style="color:#ff4fa3;">📞 دعم واتساب</h2>
-<p style="line-height:2;color:#555;">
-للتواصل والاستفسار
-تواصل عبر واتساب
-</p>
-<a href="https://wa.me/9647876700165" target="_blank" class="whatsapp-link"> فتح محادثة واتساب </a>
-<button class="close-btn"onclick="closeWhatsappPopup()"style="margin-top:10px;">إغلاق</button>
-</div>
+<div class="overlay" id="locationPopup" style="display:none;z-index:99999;">
+
+  <div class="login-box" style="text-align:center;">
+
+    <h2 style="color:#ff4fa3;">
+       عنوان الصيدلية
+    </h2>
+    <p style="line-height:2;color:#555;">
+      بغداد - العطيفية - شارع الدامرجي
+      <br>
+      مقابل أسواق تبارك
+    </p>
+
+    <a
+      href="https://maps.app.goo.gl/t9y7LErT2KnVWSK56?g_st=iwb"target="_blank"class="whatsapp-link">
+      فتح الموقع على الخرائط
+    </a>
+    <button class="close-btn"onclick="closeLocationPopup()"style="margin-top:10px;"> إغلاق </button>
+  </div>
+
 </div>
 <div class="overlay"id="originalPopup"style="display:none;z-index:99999;">
 <div class="login-box"style="text-align:center;">
@@ -360,64 +365,48 @@ IQD
 </div>
 
 <div class="overlay" id="requestProductPopup">
-
   <div class="login-box">
-
     <h2>📦 طلب منتج غير متوفر</h2>
-
-    <input
-      id="requestProductName"
-      placeholder="اسم المنتج">
-
-    <input
-      id="requestPhone"
-      placeholder="رقم الهاتف (اختياري)">
-
-    <textarea
-      id="requestNote"
-      placeholder="ملاحظات إضافية">
-    </textarea>
-
-    <button onclick="sendProductRequest()">
-      إرسال الطلب
-    </button>
-
-    <button
-      class="close-btn"
-      onclick="closeRequestProductPopup()">
-      إغلاق
-    </button>
-
+    <input id="requestProductName"placeholder="اسم المنتج">
+    <div class="request-image-row">
+   <span class="request-image-label"> صورة المنتج (اختياري) </span>
+  <label for="requestProductImage" class="upload-image-btn"> رفع صورة </label>
+  <input  type="file"id="requestProductImage" accept="image/*" hidden>
+   <div id="selectedImageName"></div>
   </div>
-
+<input id="requestPhone" placeholder="رقم الهاتف (اختياري)">
+<textarea id="requestNote" placeholder="ملاحظات إضافية"></textarea>
+    <button onclick="sendProductRequest()">  إرسال الطلب </button>
+    <button  class="close-btn"onclick="closeRequestProductPopup()"> إغلاق </button>
+  </div>
 </div>
 
-<div class="overlay"
-id="requestsPanel"
-style="display:none;z-index:99999;">
-
+<div class="overlay"id="requestsPanel"style="display:none;z-index:99999;">
   <div class="login-box">
-
     <div class="orders-header">
-
       <h2>📦 طلبات المنتجات</h2>
-
-      <button
-      class="orders-close-btn"
-      onclick="closeRequestsPanel()">
-      ×
-      </button>
-
+      <button class="orders-close-btn"onclick="closeRequestsPanel()"> × </button>
     </div>
-
-    <div id="requestsList">
-      لا توجد طلبات
-    </div>
-
+    <div id="requestsList">  لا توجد طلبات </div>
   </div>
-
 </div>
-
+<div class="overlay" id="statsPanel" style="display:none;z-index:99999;">
+  <div class="login-box">
+    <div class="orders-header">
+      <h2>📊 لوحة الإحصائيات</h2>
+      <button class="orders-close-btn" onclick="closeStatsPanel()">×</button>
+    </div>
+     <div class="counts-wrapper">
+       <div class="products-count"id="productsCount"> عدد المنتجات: 0</div>
+       <div class="products-count available-count"id="availableCount"> المتوفرة: 0</div>
+       <div class="products-count unavailable-count"id="unavailableCount"> غير المتوفرة: 0</div>
+       <div class="products-count visitors-count"id="visitorsCountBox"> زوار الموقع: <span id="visitorsCount">0</span></div>
+       <div class="products-count orders-count" id="ordersCount"> عدد الطلبات: 0 </div>
+       <div class="products-count discount-count" id="discountCodesCount"> عدد أكواد الخصم: 0 </div>
+       <div class="products-count requests-count" id="productRequestsCount">  عدد طلبات المنتجات: 0 </div>
+     </div>
+  </div>
+</div>
 
 <script type="module" src="app.js"></script>
 </body>

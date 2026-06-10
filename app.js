@@ -115,25 +115,28 @@ function renderProducts(list){
   const box =
   document.getElementById("products");
   box.innerHTML = "";
-  document.getElementById("productsCount")
-.innerText =
-"عدد المنتجات: " + list.length;
+
+
+ document.getElementById("productsCount").innerText =
+"عدد المنتجات: " + allProducts.length;
+
 const available =
-list.filter(p =>
-p.available !== false
+allProducts.filter(
+  p => p.available !== false
 ).length;
+
 const unavailable =
-list.filter(p =>
-p.available === false
+allProducts.filter(
+  p => p.available === false
 ).length;
-document.getElementById(
-"availableCount"
-).innerText =
+
+document.getElementById("availableCount").innerText =
 "المتوفرة: " + available;
-document.getElementById(
-"unavailableCount"
-).innerText =
+
+document.getElementById("unavailableCount").innerText =
 "غير المتوفرة: " + unavailable;
+
+
   list.forEach(p=>{
     box.innerHTML += `
     <div class="card"
@@ -188,6 +191,7 @@ window.addEventListener(
 "DOMContentLoaded",
 updateCart
 );
+
 window.searchProducts = function(text){
   if(!text){
     renderProducts(allProducts);
@@ -201,6 +205,7 @@ window.searchProducts = function(text){
   );
   renderProducts(filtered);
 };
+
 window.openPopup = function(product){
   document.getElementById("productPopup") .style.display = "flex";
   document.getElementById("scrollTopBtn") .classList.remove("show");
@@ -228,6 +233,31 @@ window.closePopup = function(){
   document.getElementById("productPopup")
   .style.display = "none";
 };
+window.openStatsPanel = function () {
+  document.getElementById("statsPanel").style.display="flex";
+  loadStats();
+}
+window.closeStatsPanel = async function () {
+  document.getElementById("statsPanel").style.display="none";
+}
+
+document.getElementById("requestProductImage").addEventListener("change", function(){
+  const file = this.files[0];
+  document.getElementById(
+  "selectedImageName"
+).textContent =
+file
+  ? "✅ تم رفع الصورة بنجاح" : "" ;
+  if(!file) return;
+  const preview =
+  document.getElementById(
+    "requestImagePreview"
+  );
+  preview.src =
+  URL.createObjectURL(file);
+  preview.style.display = "block";
+});
+
 window.filterCat = function(cat,event){
   document.querySelectorAll(".cat")
   .forEach(c=>c.classList.remove("active"));
@@ -526,6 +556,7 @@ function updateAdminUI(){
     document.getElementById("discountsMenuBtn").style.display = "block";
     document.getElementById("addProductMenuBtn").style.display = "block";
     document.getElementById("requestsMenuBtn").style.display = "block";
+    document.getElementById("statsMenuBtn").style.display = "block";
   }else{
     document.getElementById("loginMenuBtn")  .style.display = "block";
     document.getElementById("logoutMenuBtn") .style.display = "none";
@@ -533,6 +564,7 @@ function updateAdminUI(){
     document.getElementById("discountsMenuBtn") .style.display = "none";
     document.getElementById("addProductMenuBtn").style.display = "none";
     document.getElementById("requestsMenuBtn").style.display = "none";
+    document.getElementById("statsMenuBtn").style.display = "none";
   }
 }
 window.loginAdmin = async function(){
@@ -806,14 +838,14 @@ window.addEventListener("scroll",()=>{
     );
   }
 });
-window.openWhatsappPopup = function(){
+window.openLocationPopup = function(){
   document.getElementById(
-    "whatsappPopup"
+    "locationPopup"
   ).style.display = "flex";
 };
-window.closeWhatsappPopup = function(){
+window.closeLocationPopup = function(){
   document.getElementById(
-    "whatsappPopup"
+    "locationPopup"
   ).style.display = "none";
 };
 window.openOriginalPopup = function(){
@@ -1276,7 +1308,14 @@ window.openRequestProductPopup = function(){
   document.getElementById("requestProductPopup").style.display = "flex";
 }
 window.closeRequestProductPopup = function(){
+
   document.getElementById("requestProductPopup").style.display = "none";
+
+  document.getElementById("requestProductImage").value = "";
+
+  document.getElementById("selectedImageName")
+  .textContent = "";
+
 }
 window.sendProductRequest =async function(){
   const name =
@@ -1289,12 +1328,23 @@ window.sendProductRequest =async function(){
     alert("اكتب اسم المنتج");
     return;
   }
-  await addDoc(
+
+  let imageUrl = "";
+ const imageFile =
+ document.getElementById("requestProductImage")?.files?.[0];
+ if(imageFile){
+  imageUrl =
+  await uploadImage(
+    imageFile
+  );
+ }
+await addDoc(
   collection(db,"productRequests"),
   {
     name,
     phone,
     note,
+    imageUrl,
     date:Date.now(),
     provided:false,
     notified:false
@@ -1304,6 +1354,8 @@ window.sendProductRequest =async function(){
  document.getElementById("requestProductName").value = "";
  document.getElementById("requestPhone").value = "";
  document.getElementById("requestNote").value = "";
+ document.getElementById("requestProductImage").value = "";
+ document.getElementById("selectedImageName").textContent = "";
   closeRequestProductPopup();
 }
 window.openRequestsPanel = function(){
@@ -1340,6 +1392,14 @@ const snapshot = await getDocs(q);
   <div class="request-info">
     📞 ${data.phone || "لا يوجد"}
   </div>
+  ${data.imageUrl ? `
+<a href="${data.imageUrl}" target="_blank">
+  <img
+    src="${data.imageUrl}"
+    class="request-product-image"
+  >
+</a>
+` : ""}
   <div class="request-note">
     📝 ${data.note || "لا توجد ملاحظات"}
   </div>
@@ -1377,6 +1437,29 @@ window.markNotified = async function(id){
   );
   loadProductRequests();
 }
+
+async function loadStats() {
+
+  const ordersSnap =
+  await getDocs(collection(db,"orders"));
+
+  document.getElementById("ordersCount").innerText =
+  "عدد الطلبات: " + ordersSnap.size;
+
+  const discountSnap =
+  await getDocs(collection(db,"discountCodes"));
+
+  document.getElementById("discountCodesCount").innerText =
+  "عدد أكواد الخصم: " + discountSnap.size;
+
+  const requestsSnap =
+  await getDocs(collection(db,"productRequests"));
+
+  document.getElementById("productRequestsCount").innerText =
+  "عدد طلبات المنتجات: " + requestsSnap.size;
+}
+
+
 box.innerHTML += `
 <div class="request-card">
   <div class="request-title">

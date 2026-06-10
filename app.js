@@ -1,3 +1,24 @@
+
+// منع الكلك اليمين
+document.addEventListener("contextmenu", function(e){
+  e.preventDefault();
+});
+
+// منع أدوات المطور
+document.addEventListener("keydown", function(e){
+
+  if(
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && e.key === "I") ||
+    (e.ctrlKey && e.key === "u")
+  ){
+    e.preventDefault();
+  }
+
+});
+
+
+
 async function compressImage(file){
   return new Promise((resolve)=>{
     const img = new Image();

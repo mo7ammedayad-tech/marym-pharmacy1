@@ -109,7 +109,7 @@
 </div>
 
 <br>
-<button class="request-btn" onclick="openRequestProductPopup()"> طلب منتج جديد </button>
+<button class="request-btn" onclick="openRequestProductPopup()"> طلب منتج جديد غير متوفر </button>
 <br>
 
 <div class="features">
@@ -320,26 +320,49 @@ IQD
 <button class="close-btn"onclick="closeDeliveryPopup()">إغلاق</button>
 </div>
 </div>
+
 <div class="overlay"id="ordersPanel"style="display:none;z-index:99999;">
   <div class="login-box">
     <div class="orders-header">
   <h2>📦 الطلبات</h2>
   <button class="orders-close-btn"onclick="document.getElementById('ordersPanel').style.display='none'"> x</button>
 </div>
-<div class="orders-summary">
+
+
+<div style="margin-top:10px;text-align:center;">
+<span style="font-size:14px;">
+من:
+</span>
+
+<input type="date"id="fromDate"style="width:130px;padding:5px;border-radius:8px;border:1px solid #ddd;">
+
+<span style="font-size:14px;margin-right:8px;">
+إلى:
+</span>
+
+<input type="date"id="toDate"style="width:130px;padding:5px;border-radius:8px;border:1px solid #ddd;">
+<button onclick="loadOrders()"
+style="padding:6px 12px;border:none;border-radius:8px;background:#ff4fa3;color:white;margin-right:5px;cursor:pointer;">
+عرض
+</button>
+
+</div>
+
   <div id="ordersTotal" class="order-total-box">
     مجموع الأرباح: 0 IQD
   </div>
   <div id="siteProfit" class="order-total-box site-profit">
     أرباح الموقع 5%: 0 IQD
   </div>
-</div>
+
     <div id="ordersList">
       لا توجد طلبات
     </div>
   </div>
 </div>
+
 <button id="scrollTopBtn"onclick="scrollToTop()">↑</button>
+
 <div class="overlay"id="discountsPanel"style="display:none;z-index:99999;">
   <div class="login-box">
     <div class="orders-header">
@@ -390,6 +413,7 @@ IQD
     <div id="requestsList">  لا توجد طلبات </div>
   </div>
 </div>
+
 <div class="overlay" id="statsPanel" style="display:none;z-index:99999;">
   <div class="login-box">
     <div class="orders-header">

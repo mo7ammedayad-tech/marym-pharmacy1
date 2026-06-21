@@ -1,12 +1,7 @@
-
-// منع الكلك اليمين
 document.addEventListener("contextmenu", function(e){
   e.preventDefault();
 });
-
-// منع أدوات المطور
 document.addEventListener("keydown", function(e){
-
   if(
     e.key === "F12" ||
     (e.ctrlKey && e.shiftKey && e.key === "I") ||
@@ -14,11 +9,10 @@ document.addEventListener("keydown", function(e){
   ){
     e.preventDefault();
   }
-
 });
 
 
-
+// ضغط الصورة وتقليل حجمها قبل رفعها
 async function compressImage(file){
   return new Promise((resolve)=>{
     const img = new Image();
@@ -55,6 +49,7 @@ async function compressImage(file){
     reader.readAsDataURL(file);
   });
 }
+// رفع الصور إلى ImgBB والحصول على رابط الصورة
 async function uploadImage(file){
   const compressed =
   await compressImage(file);
@@ -75,6 +70,7 @@ async function uploadImage(file){
   await res.json();
   return data.data.url;
 }
+// استيراد مكتبات Firebase
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import {
@@ -98,6 +94,7 @@ import {
   signInWithEmailAndPassword
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+// إعدادات مشروع Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCNLcHgGv7Cq2ONzBJtM3JPFVR4qSWdE1A",
   authDomain: "pharmacy-440bf.firebaseapp.com",
@@ -106,9 +103,11 @@ const firebaseConfig = {
   messagingSenderId: "70472218671",
   appId: "1:70472218671:web:3da3dad68c0b1fc3696eda"
 };
+// تهيئة Firebase والخدمات
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+// نظام عداد الزوار
 const visitorsRef = doc(db, "stats", "visitors");
 if(!localStorage.getItem("visited")){
   updateDoc(visitorsRef, {
@@ -122,52 +121,35 @@ onSnapshot(visitorsRef, (docSnap) => {
       docSnap.data().count || 0;
   }
 });
+// حالات عامة (Global State)
 let appliedDiscount = 0;
 let appliedCode = null;
-let cart = JSON.parse(
-  localStorage.getItem("cart")
-) || [];
+// تحميل السلة من localStorage أو إنشاء مصفوفة فارغة
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// جميع المنتجات (تجي من قاعدة البيانات )
 let allProducts = [];
+// المنتجات المعروضة حالياً (فلترة / بحث)
 let currentProducts = [];
-let isAdmin =
-localStorage.getItem("isAdmin") === "true";
+// تحديد إذا المستخدم أدمن
+let isAdmin = localStorage.getItem("isAdmin") === "true";
+// عرض المنتجات
 function renderProducts(list){
-  currentProducts = [...list];
-  const box =
-  document.getElementById("products");
-  box.innerHTML = "";
-
-
- document.getElementById("productsCount").innerText =
-"عدد المنتجات: " + allProducts.length;
-
-const available =
-allProducts.filter(
-  p => p.available !== false
-).length;
-
-const unavailable =
-allProducts.filter(
-  p => p.available === false
-).length;
-
-document.getElementById("availableCount").innerText =
-"المتوفرة: " + available;
-
-document.getElementById("unavailableCount").innerText =
-"غير المتوفرة: " + unavailable;
-
-
+currentProducts = [...list];
+const box = document.getElementById("products"); box.innerHTML = "";
+// الإحصائيات
+document.getElementById("productsCount").innerText = "عدد المنتجات: " + allProducts.length;
+const available = allProducts.filter( p => p.available !== false ).length;
+const unavailable = allProducts.filter( p => p.available === false ).length;
+document.getElementById("availableCount").innerText ="المتوفرة: " + available;
+document.getElementById("unavailableCount").innerText ="غير المتوفرة: " + unavailable;
+  // رسم المنتجات
   list.forEach(p=>{
     box.innerHTML += `
     <div class="card"
      data-id="${p.id}"
      onclick='openPopup(${JSON.stringify(p)})'>
-    <img
-    loading="lazy"
-src="${p.image && p.image.trim() !== '' 
-? p.image 
-: 'https://via.placeholder.com/300x300?text=No+Image'}"referrerpolicy="no-referrer"
+    <img loading="lazy" src="${p.image && p.image.trim() !== '' ? p.image 
+      : 'https://via.placeholder.com/300x300?text=No+Image'}"referrerpolicy="no-referrer"
 onerror="this.onerror=null;this.src='https://via.placeholder.com/300x300/ffffff/ff4fa3?text=Image';"
 style="background:white;display:block;">
       <div class="card-content">
@@ -204,14 +186,8 @@ ${isAdmin ? `
     `;
   });
 }
-window.addEventListener(
-"DOMContentLoaded",
-loadProducts
-);
-window.addEventListener(
-"DOMContentLoaded",
-updateCart
-);
+window.addEventListener("DOMContentLoaded",loadProducts);
+window.addEventListener("DOMContentLoaded",updateCart);
 
 window.searchProducts = function(text){
   if(!text){
@@ -250,14 +226,17 @@ window.openPopup = function(product){
     );
   };
 };
+
 window.closePopup = function(){
   document.getElementById("productPopup")
   .style.display = "none";
 };
+
 window.openStatsPanel = function () {
   document.getElementById("statsPanel").style.display="flex";
   loadStats();
 }
+
 window.closeStatsPanel = async function () {
   document.getElementById("statsPanel").style.display="none";
 }
@@ -305,6 +284,7 @@ window.filterCat = function(cat,event){
     );
   }
 };
+
 function showToast(){
   const toast =
   document.getElementById("toast");
@@ -313,6 +293,7 @@ function showToast(){
     toast.classList.remove("show");
   },1800);
 }
+
 window.addToCart = function(name,price){
   const product = allProducts.find(p=>p.name===name);
 if(product && product.available === false){
@@ -333,6 +314,7 @@ if(product && product.available === false){
   updateCart();
   showToast();
 };
+
 function updateCart(){
   let total = 0;
   const box =
@@ -359,6 +341,7 @@ function updateCart(){
 </div>
 `;
   });
+
 document.getElementById("count").innerText =
 cart.reduce((a,b)=>a+b.qty,0);
 const delivery = 5000;
@@ -389,18 +372,22 @@ localStorage.setItem(
   JSON.stringify(cart)
 );
 }
+
 window.changeQty = function(i,val){
   cart[i].qty = parseInt(val);
   updateCart();
 };
+
 window.removeItem = function(i){
   cart.splice(i,1);
   updateCart();
 };
+
 window.toggleCart = function(){
   document.getElementById("cart")
   .classList.toggle("open");
 };
+
 document.addEventListener("click",function(e){
   const cart =
   document.getElementById("cart");
@@ -415,6 +402,7 @@ document.addEventListener("click",function(e){
   cart.classList.remove("open");
 }
 });
+
 window.sendOrder = async function(){
   if(
     !cname.value.trim() ||
@@ -489,6 +477,7 @@ updateCart();
     encodeURIComponent(msg)
   );
 };
+
 window.toggleMenu = function(){
   const menu =
   document.getElementById("dropdownMenu");
@@ -500,6 +489,7 @@ window.toggleMenu = function(){
     menu.style.display = "block";
   }
 };
+
 document.addEventListener("click",function(e){
   const menu =
   document.getElementById("dropdownMenu");
@@ -513,6 +503,7 @@ document.addEventListener("click",function(e){
     menu.style.display = "none";
   }
 });
+
 window.openAdminLogin = function(){
   document.getElementById("overlay") .style.display = "flex";
   document.getElementById("loginBox") .style.display = "block";
@@ -520,6 +511,7 @@ window.openAdminLogin = function(){
   document.getElementById("deletePanel") .style.display = "none";
   document.getElementById("editPanel") .style.display = "none";
 };
+
 window.openAddLogin = function(){
   if(isAdmin){
     document.getElementById("overlay").style.display = "flex";
@@ -536,6 +528,7 @@ window.openAddLogin = function(){
   document.getElementById("deletePanel").style.display = "none";
   document.getElementById("editPanel").style.display = "none";
 };
+
 window.openDeleteLogin = function(){
   if(isAdmin){
     document.getElementById("overlay").style.display = "flex";
@@ -552,6 +545,7 @@ window.openDeleteLogin = function(){
   document.getElementById("deletePanel").style.display = "none";
   document.getElementById("editPanel").style.display = "none";
 };
+
 window.openEditLogin = function(){
   if(isAdmin){
     document.getElementById("overlay").style.display = "flex";
@@ -568,6 +562,7 @@ window.openEditLogin = function(){
   document.getElementById("deletePanel").style.display = "none";
   document.getElementById("editPanel").style.display = "none";
 };
+
 function updateAdminUI(){
 
   if(isAdmin){
@@ -588,6 +583,7 @@ function updateAdminUI(){
     document.getElementById("statsMenuBtn").style.display = "none";
   }
 }
+
 window.loginAdmin = async function(){
 
   let email =
@@ -626,6 +622,7 @@ window.loginAdmin = async function(){
     "بيانات الدخول غير صحيحة";
   }
 };
+
 window.closePanels = function(){
   document.getElementById("overlay") .style.display = "none";
   document.getElementById("loginBox") .style.display = "none";
@@ -633,6 +630,7 @@ window.closePanels = function(){
   document.getElementById("deletePanel") .style.display = "none";
   document.getElementById("editPanel") .style.display = "none";
 };
+
 window.logoutAdmin = function(){
   isAdmin = false;
 localStorage.removeItem("isAdmin");
@@ -645,6 +643,7 @@ localStorage.removeItem("isAdmin");
   document.getElementById("deletePanel") .style.display = "none";
   document.getElementById("editPanel")  .style.display = "none";
 };
+
 window.addProduct = async function(){
   let name =
   document.getElementById("name").value.trim();
@@ -691,6 +690,7 @@ setTimeout(()=>{
 },2000);
   loadProducts();
 };
+
 window.deleteProduct = async function(){
   let name =
   document.getElementById("deleteName")
@@ -728,6 +728,7 @@ window.deleteProduct = async function(){
     document.getElementById("deleteMsg") .innerText = "";
   },2000);
 };
+
 window.quickDelete = async function(name){
   if(!confirm("حذف المنتج؟")){
     return;
@@ -744,6 +745,7 @@ window.quickDelete = async function(name){
   }
   loadProducts();
 };
+
 window.quickEdit = async function(name){
   const product =
   allProducts.find(
@@ -771,6 +773,7 @@ window.quickEdit = async function(name){
   ? "false"
   : "true";
 };
+
 window.editProduct = async function(){
   if(!window.editingId){
     alert("ابحث عن المنتج أولاً");
@@ -825,12 +828,14 @@ document.querySelectorAll(
     .innerText = "";
   },2000);
 };
+
 document.getElementById("productPopup")
 .addEventListener("click",function(e){
   if(e.target.id === "productPopup"){
     closePopup();
   }
 });
+
 window.copyProductLink = function(id){
   const link =
 `${window.location.origin}${window.location.pathname}?product=${id}`;
@@ -846,6 +851,7 @@ window.copyProductLink = function(id){
     "✅ تمت إضافة المنتج للسلة";
   },1800);
 }
+
 window.addEventListener("scroll",()=>{
   const categories =
   document.querySelector(".categories");
@@ -859,34 +865,41 @@ window.addEventListener("scroll",()=>{
     );
   }
 });
+
 window.openLocationPopup = function(){
   document.getElementById(
     "locationPopup"
   ).style.display = "flex";
 };
+
 window.closeLocationPopup = function(){
   document.getElementById(
     "locationPopup"
   ).style.display = "none";
 };
+
 window.openOriginalPopup = function(){
   document.getElementById(
     "originalPopup"
   ).style.display = "flex";
 };
+
 window.closeOriginalPopup = function(){
   document.getElementById(
     "originalPopup"
   ).style.display = "none";
 };
+
 window.openDeliveryPopup = function(){
   document.getElementById(
     "deliveryPopup"
   ).style.display = "flex";
 };
+
 window.closeDeliveryPopup = function(){
   document.getElementById("deliveryPopup").style.display = "none";
 };
+
 window.sortProducts = function(){
   let value =
   document.getElementById("sortSelect").value;
@@ -916,12 +929,14 @@ window.sortProducts = function(){
   }
   renderProducts(sorted);
 };
+
 updateAdminUI();
 if("serviceWorker" in navigator){
   navigator.serviceWorker.register(
     "./service-worker.js"
   );
 }
+
 async function loadProducts(){
   const box =
   document.getElementById("products");
@@ -970,12 +985,14 @@ renderProducts(latestProducts);
     }
   }
 }
+
 window.scrollToTop = function(){
   window.scrollTo({
     top:0,
     behavior:"smooth"
   });
 };
+
 window.addEventListener("scroll",()=>{
   const btn =
   document.getElementById("scrollTopBtn");
@@ -990,6 +1007,7 @@ window.addEventListener("scroll",()=>{
     btn.classList.remove("show");
   }
 });
+
 window.addEventListener("load",()=>{
   const params =
   new URLSearchParams(window.location.search);
@@ -1008,6 +1026,7 @@ window.addEventListener("load",()=>{
     },300);
   }
 });
+
 cphone.addEventListener("input", ()=>{
   cphone.value = cphone.value.replace(/\D/g,'');
 });
@@ -1015,6 +1034,7 @@ window.closeCart = function(){
   document.getElementById("cart")
   .classList.remove("open");
 };
+
 window.openOrdersPage = function(){
    if(isAdmin){
     const panel =
@@ -1027,19 +1047,50 @@ window.openOrdersPage = function(){
   document.getElementById("overlay") .style.display = "flex";
   document.getElementById("loginBox") .style.display = "block";
 };
-async function loadOrders(){
+
+window.loadOrders = async function(){
   const box =
   document.getElementById("ordersList");
   box.innerHTML = "جاري التحميل...";
   const snap =
   await getDocs(collection(db,"orders"));
   let totalProfit = 0;
+
+  const fromDate =
+document.getElementById("fromDate")?.value;
+const toDate =
+document.getElementById("toDate")?.value;
+let from = null;
+let to = null;
+
+if(fromDate){
+  from = new Date(fromDate + "T00:00:00").getTime();
+}
+
+if(toDate){
+  to = new Date(toDate + "T23:59:59").getTime();
+}
+  
   let html = "";
   snap.forEach(docItem => {
     const data = docItem.data();
+    if(
+  from &&
+  data.createdAt < from
+){
+  return;
+}
+
+if(
+  to &&
+  data.createdAt > to
+){
+  return;
+}
     totalProfit += Number(
   data.finalTotal || data.total || 0
 );
+
     html += `
 <div style="
 border:1px solid #ddd;
@@ -1054,6 +1105,8 @@ text-align:right;
   ${data.phone}<br>
   <b>العنوان:</b>
   ${data.address}<br>
+  <b>التاريخ:</b>
+${new Date(data.createdAt).toLocaleDateString("ar-IQ")}<br>
   <b>المجموع:</b>
   ${data.total} IQD<br>
   <b>الخصم:</b>
@@ -1079,6 +1132,7 @@ text-align:right;
   box.innerHTML =
   html || "لا توجد طلبات";
 }
+
 window.toggleDarkMode = function(){
   document.body.classList.toggle(
     "dark-mode"
@@ -1090,17 +1144,20 @@ window.toggleDarkMode = function(){
     )
   );
 };
+
 window.openDiscountsPanel = function(){
   document.getElementById(
   "discountsPanel"
   ).style.display = "flex";
   loadDiscountCodes();
 }
+
 window.closeDiscountsPanel = function(){
   document.getElementById(
     "discountsPanel"
   ).style.display = "none";
 }
+
 window.addDiscountCode = function(){
   const code =
   document.getElementById(
@@ -1121,6 +1178,7 @@ window.addDiscountCode = function(){
   });
   alert("تمت إضافة الكود مؤقتاً");
 }
+
 window.toggleUsageLimit = function(){
   const type =
   document.getElementById(
@@ -1133,6 +1191,7 @@ window.toggleUsageLimit = function(){
   ? "block"
   : "none";
 }
+
 window.addDiscountCode = async function(){
   const code =
   document.getElementById(
@@ -1173,6 +1232,7 @@ window.addDiscountCode = async function(){
   alert("تم إضافة الكود");
   loadDiscountCodes();
 }
+
 window.loadDiscountCodes = async function(){
   const list =
   document.getElementById(
@@ -1243,6 +1303,7 @@ margin-bottom:10px;
 `;
   });
 }
+
 window.toggleDiscountStatus =
 async function(code,current){
   await updateDoc(
@@ -1253,6 +1314,7 @@ async function(code,current){
   );
   loadDiscountCodes();
 }
+
 window.deleteDiscountCode =
 async function(code){
   if(
@@ -1269,6 +1331,7 @@ async function(code){
   );
   loadDiscountCodes();
 }
+
 window.applyDiscountCode = async function(){
   const code =
   document.getElementById(
@@ -1325,19 +1388,17 @@ if(
   found;
   updateCart();
 }
+
 window.openRequestProductPopup = function(){
   document.getElementById("requestProductPopup").style.display = "flex";
 }
+
 window.closeRequestProductPopup = function(){
-
   document.getElementById("requestProductPopup").style.display = "none";
-
   document.getElementById("requestProductImage").value = "";
-
-  document.getElementById("selectedImageName")
-  .textContent = "";
-
+  document.getElementById("selectedImageName").textContent = "";
 }
+
 window.sendProductRequest =async function(){
   const name =
   document.getElementById("requestProductName").value.trim();
@@ -1379,15 +1440,18 @@ await addDoc(
  document.getElementById("selectedImageName").textContent = "";
   closeRequestProductPopup();
 }
+
 window.openRequestsPanel = function(){
   document.getElementById(
     "requestsPanel"
   ).style.display = "flex";
   loadProductRequests();
 }
+
 window.closeRequestsPanel = function(){
   document.getElementById("requestsPanel").style.display = "none";
 }
+
 async function loadProductRequests(){
   const box =
   document.getElementById("requestsList");
@@ -1440,6 +1504,7 @@ const snapshot = await getDocs(q);
 `;
   });
 }
+
 window.markProvided = async function(id){
   await updateDoc(
     doc(db,"productRequests",id),
@@ -1449,6 +1514,7 @@ window.markProvided = async function(id){
   );
   loadProductRequests();
 }
+
 window.markNotified = async function(id){
   await updateDoc(
     doc(db,"productRequests",id),
@@ -1481,16 +1547,3 @@ async function loadStats() {
 }
 
 
-box.innerHTML += `
-<div class="request-card">
-  <div class="request-title">
-    📦 ${data.name || "-"}
-  </div>
-  <div class="request-info">
-    📞 ${data.phone || "لا يوجد"}
-  </div>
-  <div class="request-note">
-    📝 ${data.note || "لا توجد ملاحظات"}
-  </div>
-</div>
-`;

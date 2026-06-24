@@ -1511,14 +1511,15 @@ body.dark-mode .categories.sticky-active{
   border:none;
   background:#ff4fa3;
   color:white;
-  padding:12px 8px;
-  border-radius:50px;
+  padding:12px 20px;
+  border-radius:999px;
   font-weight:bold;
   white-space:nowrap;
-  width:30%;
+  width:fit-content;
+  min-width:220px;
   display:block;
-  margin: 0 auto;
-  margin-top: -5px;
+  margin:0 auto;
+  margin-top:-5px;
 }
 
 #requestNote{
@@ -1681,3 +1682,32 @@ body.dark-mode .categories.sticky-active{
   font-size:13px;
   font-weight:bold;
 }
+
+.orders-filter{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center;
+  align-items:center;
+  margin-top:10px;
+}
+
+.date-input{
+  width:130px;
+  height:40px;
+  padding:5px 8px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  box-sizing:border-box;
+}
+
+.filter-btn{
+  height:40px;
+  padding:0 15px;
+  border:none;
+  border-radius:10px;
+  background:#ff4fa3;
+  color:#fff;
+  cursor:pointer;
+}
+

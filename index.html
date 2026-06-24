@@ -330,24 +330,14 @@ IQD
 
 
 <div style="margin-top:10px;text-align:center;">
-<span style="font-size:14px;">
-من:
-</span>
-
-<input type="date"id="fromDate"style="width:130px;padding:5px;border-radius:8px;border:1px solid #ddd;">
-
-<span style="font-size:14px;margin-right:8px;">
-إلى:
-</span>
-
-<input type="date"id="toDate"style="width:130px;padding:5px;border-radius:8px;border:1px solid #ddd;">
-<button onclick="loadOrders()"
-style="padding:6px 12px;border:none;border-radius:8px;background:#ff4fa3;color:white;margin-right:5px;cursor:pointer;">
+<div class="orders-filter">
+  <input type="date" id="fromDate" class="date-input">
+  <input type="date" id="toDate" class="date-input">
+<button onclick="loadOrders()" class="filter-btn">
 عرض
 </button>
 
 </div>
-
   <div id="ordersTotal" class="order-total-box">
     مجموع الأرباح: 0 IQD
   </div>
@@ -359,6 +349,7 @@ style="padding:6px 12px;border:none;border-radius:8px;background:#ff4fa3;color:w
       لا توجد طلبات
     </div>
   </div>
+</div>
 </div>
 
 <button id="scrollTopBtn"onclick="scrollToTop()">↑</button>
@@ -397,7 +388,7 @@ style="padding:6px 12px;border:none;border-radius:8px;background:#ff4fa3;color:w
   <input  type="file"id="requestProductImage" accept="image/*" hidden>
    <div id="selectedImageName"></div>
   </div>
-<input id="requestPhone" placeholder="رقم الهاتف (اختياري)">
+<input id="requestPhone" placeholder="رقم الهاتف ">
 <textarea id="requestNote" placeholder="ملاحظات إضافية"></textarea>
     <button onclick="sendProductRequest()">  إرسال الطلب </button>
     <button  class="close-btn"onclick="closeRequestProductPopup()"> إغلاق </button>
